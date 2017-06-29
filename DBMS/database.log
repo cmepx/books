@@ -1,7 +1,7 @@
-This is pdfTeX, Version 3.1415926-2.4-1.40.13 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2013.7.2)  29 JUN 2017 13:27
+This is pdfTeX, Version 3.1415926-2.4-1.40.13 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2013.7.2)  29 JUN 2017 13:33
 entering extended mode
 **database.tex
-(C:\Users\Serge\Documents\GitHub\books\database.tex
+(C:\Users\Serge\Documents\GitHub\books\DBMS\database.tex
 LaTeX2e <2011/06/27>
 Babel <v3.8m> and hyphenation patterns for english, afrikaans, ancientgreek, ar
 abic, armenian, assamese, basque, bengali, bokmal, bulgarian, catalan, coptic, 
@@ -303,38 +303,112 @@ Package: enumitem 2011/09/28 v3.5.2 Customized lists
 \enit@inbox=\box26
 \enitdp@description=\count104
 )
-(C:\Users\Serge\Documents\GitHub\books\database.aux)
-Runaway argument?
-{\contentsline {figure}{\numberline {1}{\ignorespaces ER--\IeC {\cyrd \ETC.
-! File ended while scanning use of \@writefile.
-<inserted text> 
-                \par 
-l.86 \begin{document}
-                     
-? 
-! Emergency stop.
-<inserted text> 
-                \par 
-l.86 \begin{document}
-                     
-End of file on the terminal!
+(C:\Users\Serge\Documents\GitHub\books\DBMS\database.aux)
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 86.
+LaTeX Font Info:    ... okay on input line 86.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 86.
+LaTeX Font Info:    ... okay on input line 86.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 86.
+LaTeX Font Info:    ... okay on input line 86.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 86.
+LaTeX Font Info:    ... okay on input line 86.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 86.
+LaTeX Font Info:    ... okay on input line 86.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 86.
+LaTeX Font Info:    ... okay on input line 86.
+LaTeX Font Info:    Checking defaults for T2A/cmr/m/n on input line 86.
+LaTeX Font Info:    ... okay on input line 86.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 86.
+LaTeX Font Info:    ... okay on input line 86.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 86.
+LaTeX Font Info:    ... okay on input line 86.
+LaTeX Font Info:    Try loading font information for T2A+faq on input line 86.
 
- 
-Here is how much of TeX's memory you used:
- 10527 strings out of 493921
- 153109 string characters out of 3147283
- 318262 words of memory out of 3000000
- 13760 multiletter control sequences out of 15000+200000
- 4437 words of font info for 15 fonts, out of 3000000 for 9000
- 841 hyphenation exceptions out of 8191
- 36i,0n,38p,825b,154s stack positions out of 5000i,500n,10000p,200000b,50000s
-!  ==> Fatal error occurred, no output PDF file produced!
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       C:\Users\Serge\Documents\GitHub\books\database.out)
+("C:\Program Files\MiKTeX 2.9\tex\latex\pscyr\t2afaq.fd"
+File: t2afaq.fd 2004/09/23 Fontinst v1.914 font definitions for T2A/faq.
+)
+("C:\Program Files\MiKTeX 2.9\tex\context\base\supp-pdf.mkii"
+[Loading MPS to PDF converter (version 2006.09.02).]
+\scratchcounter=\count105
+\scratchdimen=\dimen126
+\scratchbox=\box27
+\nofMPsegments=\count106
+\nofMParguments=\count107
+\everyMPshowfont=\toks19
+\MPscratchCnt=\count108
+\MPscratchDim=\dimen127
+\MPnumerator=\count109
+\makeMPintoPDFobject=\count110
+\everyMPtoPDFconversion=\toks20
+)
+*geometry* driver: auto-detecting
+*geometry* detected driver: pdftex
+*geometry* verbose mode - [ preamble ] result:
+* driver: pdftex
+* paper: a5paper
+* layout: <same size as paper>
+* layoutoffset:(h,v)=(0.0pt,0.0pt)
+* modes: 
+* h-part:(L,W,R)=(56.9055pt, 330.05199pt, 34.1433pt)
+* v-part:(T,H,B)=(28.45274pt, 512.14963pt, 56.9055pt)
+* \paperwidth=421.10078pt
+* \paperheight=597.50787pt
+* \textwidth=330.05199pt
+* \textheight=512.14963pt
+* \oddsidemargin=-15.36449pt
+* \evensidemargin=-15.36449pt
+* \topmargin=-80.81725pt
+* \headheight=12.0pt
+* \headsep=25.0pt
+* \topskip=10.0pt
+* \footskip=30.0pt
+* \marginparwidth=3.0pt
+* \marginparsep=11.0pt
+* \columnsep=10.0pt
+* \skip\footins=9.0pt plus 4.0pt minus 2.0pt
+* \hoffset=0.0pt
+* \voffset=0.0pt
+* \mag=1000
+* \@twocolumnfalse
+* \@twosidefalse
+* \@mparswitchfalse
+* \@reversemarginfalse
+* (1in=72.27pt=25.4mm, 1cm=28.453pt)
+
+Package lastpage Info: Please have a look at the pageslts package at
+(lastpage)             http://www.ctan.org/tex-archive/ 
+(lastpage)             macros/latex/contrib/pageslts/ 
+(lastpage)             or
+(lastpage)             http://www.ctan.org/tex-archive/ 
+(lastpage)             install/macros/latex/contrib/pageslts.tds.zip
+(lastpage)             ! on input line 86.
+Package caption Info: Begin \AtBeginDocument code.
+Package caption Info: hyperref package is loaded.
+Package caption Info: End \AtBeginDocument code.
+\AtBeginShipoutBox=\box28
+Package hyperref Info: Link coloring OFF on input line 86.
+("C:\Program Files\MiKTeX 2.9\tex\latex\hyperref\nameref.sty"
+Package: nameref 2012/10/27 v2.43 Cross-referencing by name of section
+
+("C:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\gettitlestring.sty"
+Package: gettitlestring 2010/12/03 v1.4 Cleanup title references (HO)
+)
+\c@section@level=\count111
+)
+LaTeX Info: Redefining \ref on input line 86.
+LaTeX Info: Redefining \pageref on input line 86.
+LaTeX Info: Redefining \nameref on input line 86.
+
+(C:\Users\Serge\Documents\GitHub\books\DBMS\database.out)
+(C:\Users\Serge\Documents\GitHub\books\DBMS\database.out)
 \@outlinefile=\write3
 
-(C:\Users\Serge\Documents\GitHub\books\title.tex [1
+(C:\Users\Serge\Documents\GitHub\books\DBMS\title.tex [1
 
 {C:/Users/Serge/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}]
+
+LaTeX Warning: Reference `LastPage' on page 2 undefined on input line 22.
+
 
 LaTeX Warning: Reference `fig:plan_example' on page 2 undefined on input line 2
 7.
@@ -345,54 +419,90 @@ LaTeX Font Info:    No file OMSfaq.fd. on input line 31.
 LaTeX Font Warning: Font shape `OMS/faq/m/n' undefined
 (Font)              using `OMS/cmsy/m/n' instead on input line 31.
 
-) [2] (C:\Users\Serge\Documents\GitHub\books\database.toc
-LaTeX Font Info:    Try loading font information for OT1+faq on input line 1.
+) [2] (C:\Users\Serge\Documents\GitHub\books\DBMS\database.toc)
+\tf@toc=\write4
+ [3]
+(C:\Users\Serge\Documents\GitHub\books\DBMS\goal.tex
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <7> on input line 4.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <5> on input line 4.
+ [4]) [5]
+(C:\Users\Serge\Documents\GitHub\books\DBMS\commutation.tex) [6] [7]
+(C:\Users\Serge\Documents\GitHub\books\DBMS\report.tex [8]
+LaTeX Font Info:    Try loading font information for OT1+faq on input line 42.
 
 ("C:\Program Files\MiKTeX 2.9\tex\latex\pscyr\ot1faq.fd"
 File: ot1faq.fd 2001/12/09 Fontinst v1.914 font definitions for OT1/faq.
 )
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <7> on input line 7.
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <5> on input line 7.
-
-Overfull \hbox (4.66774pt too wide) in paragraph at lines 31--31
- [][] [][]\T2A/faq/m/n/10 Схема вза-и-мо-дей-ствия ком-по-нент про-грамм-но-го 
-обес- 
- []
-
-[3])
-\tf@toc=\write4
- [4] (C:\Users\Serge\Documents\GitHub\books\goal.tex [5]) [6]
-(C:\Users\Serge\Documents\GitHub\books\commutation.tex) [7] [8]
-(C:\Users\Serge\Documents\GitHub\books\report.tex [9]
 Underfull \hbox (badness 1127) in paragraph at lines 42--43
 []\T2A/faq/m/n/10 Выполнение от-чј-та воз-мож-но в тех-но-ло-гии Microsoft Word
  for
  []
 
-) [10] (C:\Users\Serge\Documents\GitHub\books\presentation.tex) [11]
-(C:\Users\Serge\Documents\GitHub\books\task.tex)
-(C:\Users\Serge\Documents\GitHub\books\area.tex [12])
-(C:\Users\Serge\Documents\GitHub\books\name.tex [13] [14])
-(C:\Users\Serge\Documents\GitHub\books\role.tex [15])
-(C:\Users\Serge\Documents\GitHub\books\process.tex) [16]
-(C:\Users\Serge\Documents\GitHub\books\object.tex)
-(C:\Users\Serge\Documents\GitHub\books\er.tex
-<er_1.png, id=264, 372.9132pt x 682.9515pt>
+) [9] (C:\Users\Serge\Documents\GitHub\books\DBMS\presentation.tex) [10]
+(C:\Users\Serge\Documents\GitHub\books\DBMS\task.tex)
+(C:\Users\Serge\Documents\GitHub\books\DBMS\area.tex [11])
+(C:\Users\Serge\Documents\GitHub\books\DBMS\name.tex [12] [13])
+(C:\Users\Serge\Documents\GitHub\books\DBMS\role.tex [14])
+(C:\Users\Serge\Documents\GitHub\books\DBMS\process.tex) [15]
+(C:\Users\Serge\Documents\GitHub\books\DBMS\object.tex)
+(C:\Users\Serge\Documents\GitHub\books\DBMS\er.tex
+<er_1.png, id=221, 372.9132pt x 682.9515pt>
 File: er_1.png Graphic file (type png)
  <use er_1.png>
 Package pdftex.def Info: er_1.png used on input line 9.
 (pdftex.def)             Requested size: 256.0748pt x 468.9757pt.
 
-<er_2.png, id=265, 383.2719pt x 597.6729pt>
+<er_2.png, id=222, 383.2719pt x 597.6729pt>
 File: er_2.png Graphic file (type png)
  <use er_2.png>
 Package pdftex.def Info: er_2.png used on input line 18.
 (pdftex.def)             Requested size: 284.52756pt x 443.71193pt.
-) [17]
+) [16]
+
+Package lastpage Warning: Rerun to get the references right on input line 182.
+
 
 AED: lastpage setting LastPage
-[18] [19] [20 <C:/Users/Serge/Documents/GitHub/books/er_1.png>
-!pdfTeX error: pdflatex.exe: fflush() failed (Invalid argument)
- ==> Fatal error occurred, no output PDF file produced!
+[17] [18] [19 <C:/Users/Serge/Documents/GitHub/books/DBMS/er_1.png>] [20 <C:/Us
+ers/Serge/Documents/GitHub/books/DBMS/er_2.png>]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 182.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 182.
+
+(C:\Users\Serge\Documents\GitHub\books\DBMS\database.aux)
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 182.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 182.
+Package rerunfilecheck Info: File `database.out' has not changed.
+(rerunfilecheck)             Checksum: 5F83364F74BE5E684FF2C2B22C1FE718;9937.
+
+
+LaTeX Font Warning: Some font shapes were not available, defaults substituted.
+
+
+LaTeX Warning: There were undefined references.
+
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 182.
+ ) 
+Here is how much of TeX's memory you used:
+ 11255 strings out of 493921
+ 164409 string characters out of 3147283
+ 328742 words of memory out of 3000000
+ 14349 multiletter control sequences out of 15000+200000
+ 21186 words of font info for 29 fonts, out of 3000000 for 9000
+ 841 hyphenation exceptions out of 8191
+ 36i,5n,38p,874b,564s stack positions out of 5000i,500n,10000p,200000b,50000s
+{C:/Program Files/MiKTeX 2.9/fonts/enc/dvips/fontname/8r.enc}{C:/Program File
+s/MiKTeX 2.9/fonts/enc/t2/t2a.enc}<C:/Program Files/MiKTeX 2.9/fonts/type1/publ
+ic/pscyr/antiq5.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/pscyr/antiq
+6.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/pscyr/antiq7.pfb><C:/Prog
+ram Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb>
+Output written on database.pdf (20 pages, 3826680 bytes).
+PDF statistics:
+ 281 PDF objects out of 1000 (max. 8388607)
+ 65 named destinations out of 1000 (max. 500000)
+ 283 words of extra memory for PDF output out of 10000 (max. 10000000)
+
