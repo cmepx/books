@@ -1,0 +1,151 @@
+Формулировка: Посчитать число занятий в конкретном корпусе и факультете, с
+определенным преподавателем и типом занятия.
+Были взяты: корпус <<офФмл>>, факультет №8, преподаватель «нтвечящйтщснвБщчы», тип занятия <<лекция>>.
+
+Запрос на SQL (2 интерпретации):
+\begin{MySpisok1}
+\item \begin{verbatim} 
+SELECT COUNT(tg_les_id) AS 'Число занятий', tg_les_id AS 
+    '№ занятия', A.les_teach_id AS 'Препод-ль',
+    A.les_tl_type AS 'Предмет', A.les_corps_abbr AS 'Корпус', 
+    B.gr_fac_id AS 'Факультет' 
+FROM training_groups JOIN
+    (SELECT lesjd, les_teach_id, les_tl_type, les_corps_abbr
+         FROM lesson WHERE les_teach_id = 1 AND 
+         les_tl_type = 'лекция' AND les_corps_abbr = 'офФМЛ')
+			AS A  ON		tg_les_id = A.lesjd JOIN
+    (SELECT gr_num, gr_fac_id FROM groups WHERE gr_fac_id = 8  
+         AS В  ON 	tg_gr_num = B.gr_num;
+\end{verbatim}
+
+\par\medskip
+{\bf Результат выполнения запроса:}\\
+\begin{tabular}{|r|r|r|c|c|r|}
+\hline
+число занятий & № занятия & препод-ль & предмет & корпус & Факультет \\
+\hline
+1 & 16697 & 00001 & лекция & офФМЛ & 08 \\
+\hline
+\end{tabular}
+\par\medskip
+{\bf Время выполнения запроса:}\\
+1 row in set  (0.01 sec)\\
+\medskip
+{\bf Анализ эффективности запроса:}\\
+\begin{tabular}{|c|l|l|l|m{3cm}|}
+\hline
+id & select\_type & table & type & possible\_keys\\
+\hline
+1 &  PRIMARY & <derived3> & ALL &  NULL\\
+\hline
+1 &   PRIMARY &  <derived2> & ALL & NULL \\
+\hline
+1 &  PRIMARY & training\_groups & eq\_ref & PRIMARY, tg\_gr\_num  \\
+\hline
+3 &  DERIVED & groups & ref &  gr\_fac\_id \\
+\hline
+2 & DERIVED & lesson & index\_merge & les\_teach\_id, les\_corps\_abbr, les\_tl\_type \\
+\hline
+\end{tabular}
+\par\medskip
+\begin{tabular}{|l|l|l|r|}
+\hline
+key & key\_len & ref & rows\\
+\hline
+NULL & NULL & NULL & 6\\
+\hline
+NULL & NULL & NULL & 13\\
+\hline
+PRIMARY & 14 & A.les\_id,B.gr\_num & 1\\
+\hline
+gr\_fac\_id & 1 & & 6\\
+\hline
+les\_teach\_id, les\_tl\_type & 2,52 & NULL & 82\\
+\hline
+\end{tabular}
+\par\medskip
+\begin{tabular}{|l|}
+\hline
+Extra\\
+\hline
+\\
+\hline
+Using join buffer \\ 
+\hline
+Using index \\ 
+\hline
+Using index \\
+\hline
+Using intersect(les\_teach\_id,les\_tl\_type);  Using where;  Using index\\
+\hline
+\end{tabular}
+\par\medskip
+Выполняется 3 запроса. В первом 2 запроса с временными таблицами (отложенные). Обрабатывается 78 строк. 2й и Зй запросы вложенные. В них обрабатывается 6 и 82 строки соответсвенно.\\
+\item
+\begin{verbatim}
+SELECT COUNT(tg_les_id) AS 
+		 'Число занятий', tg_les_id AS '№ занятия',
+       teach_name AS 'Препод-ль', les_tl_type AS 'Предмет',
+       les_corps_abbr AS 'Корпус', gr_fac_id AS 'Факультет'
+       FROM training_groups   JOIN groups  ON tg_gr_num = gr_num
+                              JOIN lesson   ON tg_les_id=les_id
+                              JOIN teacher ON les_teach_id=teach_id
+       WHERE les_teach_id = 1 AND les_tl_type = 'лекция1
+             AND les_corps_abbr = 'офФМЛ' AND gr_fac_id = 8;
+\end{verbatim}
+\par\medskip
+{\bf Результат выполнения запроса:}\\
+\begin{tabular}{|r|r|c|c|c|r|}
+\hline
+число занятий & № занятия & препод-ль & предмет & корпус & Факультет \\
+\hline
+1 & 16697 & нтвечЯщй & лекция & офФМЛ & 08 \\
+\hline
+\end{tabular}
+\par\medskip
+{\bf Время выполнения запроса:}\\
+1 row in set  (0.01 sec)\\
+\medskip
+{\bf Анализ эффективности запроса:}\\
+\begin{tabular}{|c|l|l|l|m{3cm}|}
+\hline
+id & select\_type & table & type & possible\_keys\\
+\hline
+1 &  SIMPLE & teacher & ref & PRIMARY\\
+\hline
+1 &  SIMPLE &  groups & ref & PRIMARY, gr\_fac\_id \\
+\hline
+1 &  SIMPLE & training\_groups & ref & PRIMARY, tg\_gr\_num  \\
+\hline
+1 &  SIMPLE & lesson & eq\_ref & PRIMARY, les\_teach\_id, les\_corps\_abbr, les\_tl\_type \\
+\hline
+\end{tabular}
+\par\medskip
+\begin{tabular}{|l|l|l|r|m{1.5cm}|}
+\hline
+key & key\_len & ref & rows & Extra\\
+\hline
+PRIMARY  & 2 & const & 1 &\\
+\hline
+gr\_fac\_id  & 1 & const & 6 & using index \\
+\hline
+tg\_gr\_num  & 11 & timetable.groups.gr\_num & 35 & using index \\
+\hline
+PRIMARY  & 3 &  timetable.training\_groups.tg\_les\_id & 1 & using where\\
+\hline
+\end{tabular}
+\par\medskip
+Выполняется только один запрос с простыми выборками, в котором обрабатывается 210 строк.
+\end{MySpisok1}
+Формула реляционной алгебры:
+\begin{center}
+$\Bigl(\rho_{\underset{count(tg\_les\_id)=\text{\tiny ``Число занятий''}} {tg\_les\_id=\text{\scriptsize ``№ Занятия''}} } \bigl( \pi_{\underset{ count(les\_tl\_type) }{tg\_les\_id}}  (training\_groups) \bigl) \Bigl)   \underset{tg\_gr\_num=gr\_num}{\blacktriangleright\!\!\blacktriangleleft}
+\biggl(\rho_{gr\_fac\_id=\text{``Факультет''}}\Bigl(\pi_{gr\_fac\_id}\bigl(\delta_{gr\_fac\_id=8}(groups)\bigl)\Bigl)\biggl)
+\underset{tg\_gr\_id=les\_id}{\blacktriangleright\!\!\blacktriangleleft}
+\biggl(\rho_{\underset{les\_corps\_abbr=\text{\tiny ``Корпус''}}{les\_tl\_type=\text{\scriptsize ``Предмет''}}}\Bigl(\pi_{\underset{les\_corps\_abbr}{les\_tl\_type}}\bigl(\delta_{\underset{ 
+\underset{les\_teach\_id=1}{les\_corps\_abbr=\text{\tiny ``офФМЛ''}}}{les\_tl\_type=\text{\scriptsize ``лекция''} }}(lesson)\bigl)\Bigl)\biggl)
+\underset{les\_teach\_id=teach\_id}{\blacktriangleright\!\!\blacktriangleleft}
+\Bigl(\rho_{teach\_name=\text{\scriptsize ``Препод-ль''}}\bigl(\pi_{teach\_name}(teacher)\bigl)\Bigl)
+$
+\end{center}
+

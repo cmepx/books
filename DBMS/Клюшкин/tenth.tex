@@ -1,0 +1,124 @@
+\begin{verbatim}
+CREATE TABLE 'addition' (
+ 'id_Addition' int(ll) NOT NULL AUTOJNCREMENT,
+ 'Total' float NOT NULL,
+ 'Source' char(lOO) NOT NULL,
+ 'Check_number' char(50) NOT NULL,
+ 'id_personal_account' int(ll) NOT NULL,
+ PRIMARY KEY ('id_Addition'),
+ KEY 'id_personal_account' ('id_personal_account'),
+ CONSTRAINT 'addition_ibfk_l' FOREIGN KEY ('id_personal_account')
+ REFERENCES  'personal_account'
+ ('id_personal_account') 
+) ENGINE=lnnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=cpl251;
+
+CREATE TABLE 'contract' (
+ 'id_contract' int(ll) NOT NULL AUTOJNCREMENT,
+ 'contract_number' char(30) NOT NULL,
+ 'id_subscriber' int(ll) NOT NULL,
+ 'Date' date NOT NULL,
+ 'status' char(25) NOT NULL,
+ PRIMARY KEY ('id_contract'),
+ KEY 'id_subscriber' ('id_subscriber'),
+ CONSTRAINT 'contract_ibfk_l' FOREIGN KEY ('id_subscriber') 
+ REFERENCES 'subscriber' 
+ ('id_subscriber')
+) ENGINE=lnnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=Cpl251;
+
+CREATE TABLE 'expense' (
+ 'id_expense' int(ll) NOT NULL AUTOJNCREMENT,
+ 'id_tariff_plan_under_the_contract' int(ll) NOT NULL,
+ 'total' float NOT NULL,
+ 'id_personal_account' int(ll) NOT NULL,
+ PRIMARY KEY ('id_expense'),
+ KEY 'id_personal_account' ('id_personal_account'),
+ KEY'id_tariff_plan_under_the_contract' ('id_tariff_plan_under_the_contract'),
+ CONSTRAINT 'expense_ibfk_l' FOREIGN KEY ('id_personal_account') REFERENCES
+ 'personal_account'
+ ('id_personal_account'),
+ CONSTRAINT 'expense_ibfk_2' FOREIGN KEY  
+ {'id_tariff_plan_under_the_contract')REFERENCES
+ 'tariff_plan_under_the_contract'
+('id_tariff_plan_under_the_contract') ) ENGINE=lnnoDB AUTO_INCREMENT=0 DEFAULT
+ CHARSET=cpl251;
+
+CREATE TABLE 'operation' (
+ 'id_operation' int(ll) NOT NULL AUTOJNCREMENT,
+ 'name_of_operation' char(15) NOT NULL,
+ 'tariffing_unit' char(15) NOT NULL,
+ PRIMARY KEY ('id_operation') ) ENGINE=lnnoDB AUTOJNCREMENT=ODEFAULT 
+CHARSET=cpl251;
+
+CREATE TABLE 'operationJn_tariff_plan' (
+ 'id_operationjn_tariff_plan' int(ll) NOT NULL AUTOJNCREMENT, 'cost' float NOT
+ NULL, 'id_operation' int(ll) NOT NULL,
+ 'id_tariff_plan' int(ll) NOT NULL,
+ PRIMARY KEY {'id_operation_in_tariff_plan')/
+ KEY 'id_operation' ('id_operation'),
+ KEY 'id_tariff_plan' ('id_tariff_plan'),
+ CONSTRAINT 'operation_in_tariff_plan_ibfk_l' FOREIGN KEY ('id_operation') 
+ REFERENCES 'operation' Od_operation'),
+ CONSTRAINT 'operation_in_tariff _planjbfk_2' FOREIGN KEY ('id_tariff_plan')
+ REFERENCES 'tariff_plan' ('id_tariff_plan') ) ENGINE=lnnoDB AUTOJNCREMENT=0
+DEFAULT CHARSET=cpl251;
+
+CREATE TABLE 'personal_account' (
+ 'id_personal_account' int(ll) NOT NULL AUTOJNCREMENT,
+ 'status' char(50) NOT NULL,
+ 'id_subscriber' int(ll) NOT NULL,
+ 'credit' int(ll) DEFAULT NULL,
+ 'balance' float NOT NULL,
+ PRIMARY KEY ('id_personal_account'),
+ KEY 'id_subscriber' ('id_subscriber'),
+ CONSTRAINT 'personal_account_ibfk_l' FOREIGN KEY ('id_subscriber') REFERENCES
+ 'subscriber' ('id_subscriber') ) ENGINE=lnnoDB AUTO_INCREMENT=0 DEFAULT
+CHARSET=cpl251;
+
+CREATE TABLE 'subscriber' (
+ 'id_subscriber' int(ll) NOT NULL AUTOJNCREMENT,
+ 'surname' char(25) NOT NULL,
+ 'name' char(25) NOT NULL,
+ 'patronymic' char(25) NOT NULL,
+ 'date_of_birth' date NOT NULL,
+ 'phone_for_communication' char(20) NOT NULL,
+ 'Bank_detalis' char(lOO) NOT NULL,
+ 'workplace' char(lOO) NOT NULL,
+ 'place_of_residence' char(lOO) NOT NULL,
+ 'passport' bigint(20) NOT NULL,
+ PRIMARY KEY ('id_subscriber') ) ENGINE=lnnoDB AUTO_INCREMENT=0 DEFAULT 
+CHARSET=cpl251;
+
+CREATE TABLE 'subscriber_under_contract' (
+ 'id_subscriber_under_contract' int(ll) NOT NULL AUTOJNCREMENT,
+ 'telephonejiumber' char(20) NOT NULL,
+ 'id_Subscriber' int(ll) NOT NULL,
+ 'id_contract' int(ll) NOT NULL,
+ PRIMARY KEY ('id_subscriber_under_contract'),
+ KEY 'idJSubscriber' ('id_Subscriber'),
+ KEY 'id_contract' ('id_contract'),
+ CONSTRAINT 'subscriber_under_contractjbfk_l' FOREIGN KEY pd_Subscriber')
+ REFERENCES 'subscriber' ('id_subscriber'),
+ CONSTRAINT 'subscriber_under_contractjbfk_2' FOREIGN KEY ('id_contract')
+ REFERENCES 'contract' ('id_contract') ) ENGINE=lnnoDB AUTOJNCREMENT=0 DEFAULT
+CHARSET=cpl251;
+
+CREATE TABLE 'tariff_plan' (
+ 'id_tariff_plan' int(ll) NOT NULL AUTOJNCREMENT, 'name' char(25) NOT NULL, 
+ 'connection_cost' int(ll) NOT NULL,
+ 'activity' char{25) NOT NULL, 'monthlyjee' int(ll) NOT NULL, 
+ 'type_of_a_monthly_fee' char(20) DEFAULT NULL, PRIMARY KEY Od_tariff_plan') ) 
+ENGINE=lnnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=cpl251;
+
+CREATE TABLE 'tariff_plan_under_the_contract' (
+ 'id_tariff_plan_under_the_contract' int(ll) NOT NULL AUTOJNCREMENT,
+ 'id_contract' int(ll) NOT NULL,
+ 'id_tariff_plan' int(ll) NOT NULL,
+ PRIMARY KEY Od_tariff_plan_under_the_contract'),
+ KEY 'id_contract' Od_contract'),
+ KEY Nd_tariff_plan> (Md_tariff_plan^),
+ CONSTRAINT %tariff_plan_under_the_contract_ibfk_l' FOREIGN KEY Od_contract')
+ REFERENCES 'contract' ('id_contract'),
+ CONSTRAINT 'tariff_plan_under_the_contract_ibfk_2' FOREIGN KEY 
+ ('id_tariff_plan') REFERENCES 'tariff_plan' ('id_tariff_plan') ) ENGINE=lnnoDB
+ AUTO_INCREMENT=0 DEFAULT CHARSET=cpl251;
+\end{verbatim}

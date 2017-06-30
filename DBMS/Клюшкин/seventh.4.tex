@@ -1,0 +1,62 @@
+\begin{verbatim}
+select id_contract, sum(total) as su
+from expense
+join tariff_plan_under_the_contract on 
+expense.id_tariff_plan_under_the
+group by id_contract having su =
+(select max(su)
+   from (
+   select sum(total) as su
+   from expense
+   join tariff_plan_under_the_contract on
+   expense.id_tariff_plan_under_the_contract
+   group by id_contract) 
+as qwe);
+\end{verbatim}
+
+\begin{table}[th]
+\rotatebox{90}
+{
+\centering
+{
+\begin{tabular}{|l|l|l|l|l|l|l|l|l|l|}
+\hline
+id & select\_type & table & type & possible\_keys & key & key\_len & ref & rows & Extra \\
+\hline
+1 & PRIMARY & tariff\_plan\_under\_the\_contract & index & PRIMARY & id\_contract & 4 & NULL & 223 & Using index\\
+1 & PRIMARY & expense & ref & id\_tariff\_plan\_under\_the\_contract & id\_tariff\_plan\_under\_the\_contract & 4 & biling\_system.id\_tariff\_plan\_under\_the\_contract.id\_id\_tariff\_plan\_under\_the\_contract & 11 & -\\
+2 & SUBQUERY & (derived3) & ALL & NULL & NULL & NULL & NULL & 1100 & -\\
+3 & DERIVED & tariff\_plan\_under\_the\_contract & index & PRIMARY & id\_contract & 4 & NULL & 223 & Using index\\
+3 & DERIVED & expense & ref & id\_tariff\_plan\_under\_the\_contract & d\_id\_tariff\_plan\_under\_the\_contract & 4 & biling\_system.id\_tariff\_plan\_under\_the\_contract.id\_id\_tariff\_plan\_under\_the\_contract & 11 & -\\
+\hline
+\end{tabular}
+}
+}
+\end{table}
+
+\begin{table}[h!]
+\centering
+{
+\begin{tabular}{|l|l|}
+\hline
+id\_contract & su\\
+\hline
+957 & 146022\\
+\hline
+\end{tabular}
+}
+\end{table}
+
+\begin{verbatim}
+1 row in set (0.26 sec)
+\end{verbatim}
+
+A=($\Pi_{max(su)}$($\rho_{sum(total)=su}$($\Pi_{sum(total)}$($\gamma_{id\_contract}$\\
+($expense_{id\_tariff\_plan\_under\_the\_contract \blacktriangleright\!\blacktriangleleft id\_tariff\_plan\_under\_the\_contract}\\$tariff\_plan\_under\_the\_contract)))))
+
+
+$\sigma_{su=A}$($\rho_{sum(total)=su}$($\Pi_{id\_contract,sum(total)}$($\gamma_{id\_contract}$\\
+($expense_{id\_tariff\_plan\_under\_the\_contract \blacktriangleright\!\blacktriangleleft id\_tariff\_plan\_under\_the\_contract}\\
+$tariff\_plan\_under\_the\_contract))))
+
+ ак и в предыдущих случа€х сначала делаетс€ запрос в HAVING, а потом самый вложенный запрос.

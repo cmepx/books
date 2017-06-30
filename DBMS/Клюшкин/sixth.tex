@@ -1,0 +1,226 @@
+\begin{table}[h!]
+\centering
+{
+\caption{<<Пополнение>> (Addition)}
+\label{tab:1}
+\begin{tabular}{|>{\centering}p{0.5cm}|l|l|l|l|}
+\hline
+\multicolumn{5}{|l|}{{\bf Пополнение - Addition}}\\
+\hline
+-	&	Название EN	&	Название RU	&	Тип атрибута	&	NULL/NOT NULL\\
+\hline
+PK	&	id\_Addition	&	id\_Пополнение	&	INT	&	NOT NULL\\
+\hline
+-	&	Total	&	Сумма &	FLOAT	&	NOT NULL\\
+\hline
+-	&	Source	&	Источник	&	CHAR[100]	&	NOT NULL\\
+\hline
+-	&	Check\_number	&	Номер\_числа	& CHAR[50]	&	NOT NULL\\
+\hline
+\end{tabular}
+}
+\end{table}
+
+\begin{itemize}	
+\item	Сумма пополнения может быть совершенно разной. От нескольких десятков рублей, до миллионов. Зависит от целей использования услуг оператора сотовой связи. Например,большая компания возможно будет пополнять корпоративный счет своих рабочих раз в год, но на довольно большую сумму. Сумму мы будем хранить в рублях, но существует вариант, когда сумма пополнения может приходить с копейками. Что бы это учесть, мы будем использовать FLOAT.
+\item Источник пополнений может быть разный. Как терминал, так и перевод с какой либо банковской карты, а также оплата в самом офисе сотового оператора. Сто символов для этого поля нам будет достаточно.
+\item В номер чека могут входить как цифры, так и буквы, а также специальные символы. Не исключено, что номер чека может быть довольно большой, но 50 символов нам хватит.
+\end{itemize}
+
+\begin{table}[h!]
+\begin{center}
+\caption{<<Лицевой счет>> (Personal account)}
+\label{tab:2}
+\begin{tabular}{|l|l|l|l|l|}
+\hline
+\multicolumn{5}{|l|}{{\bf Лицевой\_счет - Personal\_account}}\\
+\hline
+-	&	Название EN	&	Название RU	&	Тип атрибута	&	NULL/NOT NULL\\
+\hline
+PK	&	id\_Personal\_account	&	id\_Лицевой\_счет	&	INT	&	NOT NULL\\
+\hline
+-	&	Status	&	Состояние &	CHAR[50]	&	NOT NULL\\
+\hline
+-	&	Credit	&	Размер\_кредита	&	INT	&	NULL\\
+\hline
+-	&	Balance	&	Баланс	& FLOAT	&	NULL\\
+\hline
+\end{tabular}
+\end{center}
+\end{table}
+
+\begin{itemize}
+\item Состояние подразумевает хранение информации о блокировки лицевого счета, активности и прочих возможных вариантов. Самый длинный вариант, который я смог придумать - «Ожидается активация». Но возможно, может появиться еще какой то вид состояния,поэтому сделаем запас.
+\item Размер кредита - это то количество средств, которое абонент может использовать в долг.Возможно, будет существовать тариф с пост.оплатой. Так как у нас кредит для удобство использования будет числом целым, будем использовать INТ.
+\item Баланс - количество средств, находящихся на лицевом счете абонента. Средства могут как отсутствовать, так и их количество может содержать копейки. Поэтому FLOAТ.
+\end{itemize}
+
+\begin{table}[h!]
+\centering
+{
+\caption{<<Абонент>> (Subscriber)}
+\label{tab:3}
+\begin{tabular}{|>{\centering}p{0.4cm}|>{\centering}p{3.4cm}|l|l|l|}
+\hline
+\multicolumn{5}{|l|}{{\bf Абонент - Subscriber}}\\
+\hline
+-	&	Название EN	&	Название RU	&	Тип атрибута	&	NULL/NOT NULL\\
+\hline
+PK	&	id\_Subscriber	&	id\_Абонент	&	INT	&	NOT NULL\\
+\hline
+-	&	Surname	&	Фамилия &	CHAR[25]	&	NOT NULL\\
+\hline
+-	&	Name	&	Имя	&	CHAR[25]	&	NOT NULL\\
+\hline
+-	&	Patronymic	&	Отчество	& CHAR[25]	&	NOT NULL\\
+\hline
+-	&	Date\_of\_birth	&	Дата рождения	& DATE	&	NOT NULL\\
+\hline
+-	&	Phone\_for\_com-munication	&	Телефон для связи	& CHAR[20]	&	NOT NULL\\
+\hline
+-	&	Bank\_details	&	Банковские реквизиты	& CHAR[100]	&	NOT NULL\\
+\hline
+-	&	Work\_place	&	Место\_работы	& CHAR[100]	&	NOT NULL\\
+\hline
+-	&	Place\_of\_residence	&	Место проживания	& CHAR[100]	&	NOT NULL\\
+\hline
+-	&	Passport	&	Паспорт	& BIGINT	&	NOT NULL\\
+\hline
+\end{tabular}
+}
+\end{table}
+
+\begin{itemize}
+\item Как известно самая длинная фамилия принадлежит жителю Стамбула, и составляет она 43 буквы. Но русские фамилии с таким количеством букв я не встречал, поэтому 25 символов нам точно хватит.
+\item Законы позволяют изменить имя на какое угодно. Но надеясь на адекватность, будем считать, что количество букв не будет выходить за 25.
+\item По тем же причинам выделим на отчество все те же 25 символов.
+\item Банковские реквизиты могут содержать буквы и прочие символы, поэтому возьмем чар, а так же быть довольно громоздкими, поэтому возьмем 100 символов.
+\item Длина места работы довольно случайное значение, но 100 символов должно хватить.
+\item Структура номера паспорта одинаковая. 4 цифры серии и б цифр номера. Нам придется использовать тип, куда влезает самое большое десятизначное число. А это ВIGINТ.
+\end{itemize}
+
+\begin{table}[h!]
+\begin{center}
+\caption{<<Договор>> (Контракт)}
+\label{tab:4}
+\begin{tabular}{|l|l|l|l|l|}
+\hline
+\multicolumn{5}{|l|}{{\bf Договор - Contract}}\\
+\hline
+-	&	Название EN	&	Название RU	&	Тип атрибута	&	NULL/NOT NULL\\
+\hline
+PK	&	id\_Contract	&	id\_Договор	&	INT	&	NOT NULL\\
+\hline
+-	&	Contract\_number	&	Номер\_договора	&	CHAR[30]	&	NOT NULL\\
+\hline
+-	&	Date	&	Дата	&	DATE	&	NOT NULL\\
+\hline
+-	&	Status	&	Статус	& CHAR[25]	&	NOT NULL\\
+\hline
+\end{tabular}
+\end{center}
+\end{table}
+
+\begin{itemize}
+\item Номер договора может состоять из цифр, из букв и специальных символов. 25 символов на все нам должно хватить.
+\end{itemize}
+
+\begin{table}[h!]
+\begin{center}
+\caption{<<Тарифный план>> (Tariff plan)}
+\label{tab:5}
+\begin{tabular}{|p{0.4cm}|l|l|p{1.7cm}|p{2.3cm}|}
+\hline
+\multicolumn{5}{|l|}{{\bf Тарифный\_план - Tariff\_plan}}\\
+\hline
+-	&	Название EN	&	Название RU	&	Тип атрибута	&	NULL/NOT NULL\\
+\hline
+PK	&	id\_Tariff\_plan	&	id\_Тарифный план	&	INT	&	NOT NULL\\
+\hline
+-	&	Name	&	Название	&	CHAR[25]	&	NOT NULL\\
+\hline
+-	&	Connection\_cost	&	Стоимость\_подключения	&	INT	&	NOT NULL\\
+\hline
+-	&	Activity	&	Активность	& CHAR[25]	&	NOT NULL\\
+\hline
+-	&	Monthly\_fee	&	Абонентская\_плата	&	INT	&	NOT NULL\\
+\hline
+-	&	Type\_of\_a\_monthly\_free	&	Тип\_абонентской\_платы	& CHAR[20]	& NULL\\
+\hline
+\end{tabular}
+\end{center}
+\end{table}
+
+\begin{itemize}
+\item В активности предполагается указывать, доступен ли данных тарифный план для подключения. Самая длинная фраза «Не активен». Возьмем с запасом. 25 символов в самый раз.
+\item	Если абонентской платы на данном тарифе нет, то её стоимость просто будет равно 0. А поле Тип\_абонентской\_платы пустым.
+\end{itemize}
+
+\begin{table}[h!]
+\begin{center}
+\caption{<<Операция>> (Operation)}
+\label{tab:6}
+\begin{tabular}{|p{0.4cm}|l|l|p{1.9cm}|l|}
+\hline
+\multicolumn{5}{|l|}{{\bf Operation - Операция}}\\
+\hline
+-	&	Название EN	&	Название RU	&	Тип атрибута	&	NULL/NOT NULL\\
+\hline
+PK	&	id\_Operation	&	id\_Операция	&	INT	&	NOT NULL\\
+\hline
+-	&	Tariffing\_unit	&	Единица\_тарификации	&	CHAR[15]	&	NOT NULL\\
+\hline
+-	&	Name\_of\_operation	&	Название\_операции	&	CHAR[15]	&	NOT NULL\\
+\hline
+\end{tabular}
+\end{center}
+\end{table}
+
+\begin{itemize}
+\item Самая длинная единица тарификации - сообщение. Возьмем с запасом. 15 символов должно хватить.
+\end{itemize}
+
+\begin{table}[h!]
+\begin{center}
+\caption{<<Операции в тарифном плане>> (Operation in tariff plan)}
+\label{tab:7}
+\begin{tabular}{|p{0.4cm}|p{3.8cm}|p{4.5cm}|p{1.7cm}|l|}
+\hline
+\multicolumn{5}{|l|}{{\bf Operation\_in\_tariff\_plan - Операции\_в\_тарифном\_плане}}\\
+\hline
+-	&	Название EN	&	Название RU	&	Тип атрибута	&	NULL/NOT NULL\\
+\hline
+PK	&	id\_Operation\_in\_ta-riff\_plan	&	id\_Операции\_в\_тариф-ном\_плане	&	INT	&	NOT NULL\\
+\hline
+-	&	Cost	&	Стоимость	&	FLOAT	&	NOT NULL\\
+\hline
+\end{tabular}
+\end{center}
+\end{table}
+
+\begin{itemize}
+\item Сумма расхода будет id числом. Возможно, будут указываться копейки, поэтому FLOAT.
+\end{itemize}
+
+\newpage
+\begin{table}[h!]
+\begin{center}
+\caption{<<Абонент по договору>> (Subscriber under contract)}
+\label{tab:8}
+\begin{tabular}{|p{0.5cm}|p{3.7cm}|p{3.8cm}|l|l|}
+\hline
+\multicolumn{5}{|l|}{{\bf Subscriber\_under\_contract - Абоненты\_по\_договору}}\\
+\hline
+-	&	Название EN	&	Название RU	&	Тип атрибута	&	NULL/NOT NULL\\
+\hline
+PK	&	id\_Subscriber\_un-der\_contract	&	id\_Абонен-ты\_по\_договору	&	INT	&	NOT NULL\\
+\hline
+-	&	Telephone\_number	&	Телефонный номер	&	CHAR[20]	&	NOT NULL\\
+\hline
+\end{tabular}
+\end{center}
+\end{table}
+
+\begin{itemize}
+\item +7 (952) 231-02-56 - сама длинная запись телефонного номера, которую я смог придумать. 20 символов нам вполне хватит.
+\end{itemize}

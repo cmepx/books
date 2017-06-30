@@ -1,0 +1,58 @@
+\begin{verbatim}
+select id_tariff_plan, sum(balance),
+count(subscriber_under_contract.id_subscriber) as sub
+from addition
+join personal_account on addition.
+id_personal_account=personal_account.id_personal_account
+joinsubscriber_under_contractonpersonal_account.id_subscriber=
+subscriber_under_contract.id_subscriber
+join contract on subscriber_under_contract.id_contract=contract.id_contract
+join tariff_plan_under_the_contract on
+contract.id_contract=tariff_plan_under_the_contract.id_contract
+\end{verbatim}
+
+\begin{table}[th]
+\rotatebox{90}
+{
+\centering
+{
+\begin{tabular}{|l|l|l|l|l|l|l|l|l|l|}
+\hline
+id & select\_type & table & type & possible\_keys & key & key\_len & ref & rows & Extra \\
+\hline
+1 & SIMPLE & addition & index & id\_personal\_account & id\_personal\_account & 4 & NULL & 475 & Using index; Using temporary; Using filesort\\
+1 & SIMPLE & personal\_account & eq\_ref & PRIMARY,id\_subscriber & PRIMARY & 4 & biling\_system.addition.id\_personal\_account & 1 & -\\
+1 & SIMPLE & subscriber\_under\_contract & ref & id\_Subscriber,id\_contract & id\_Subscriber & 4 &  & 4 & -\\
+1 & SIMPLE & tariff\_plan\_under\_the\_contract & ref & id\_contract & id\_contract & 4 & biling\_system.subscriber\_under\_contract.id\_contract & 1 & -\\
+1 & SIMPLE & contract & eq\_ref & PRIMARY & PRIMARY & 4 & biling\_system.subscriber\_under\_contract.id\_contract & 1 & Using index\\
+\hline
+\end{tabular}
+}
+}
+\end{table}
+
+\begin{table}[h!]
+\centering
+{
+\begin{tabular}{|l|l|l|}
+\hline
+id\_tariff\_plan & sum(balance) & sub\\
+\hline
+1 & 661807 & 455\\
+2 & 720361 & 455\\
+3 & 672506 & 424\\
+4 & 707849 & 421\\
+5 & 665144 & 446\\
+\hline
+\end{tabular}
+}
+\end{table}
+
+\begin{verbatim}
+25 rows in set(0.09 sec)
+\end{verbatim}
+
+Никаких вложенных запросов. Используем индекс, создаем временную таблицу и используем сортировку. Очень эффективный запрос.
+
+$\Pi_{id\_tariff\_plan,sum(balance),sub}$($\rho_{count(id\_subscriber)=sub}$($gamma_{id\_tarrif\_plan,sum(balance),count(id\_subscriber)}$\\
+(((($addition_{id\_personal\_account\blacktriangleright\!\blacktriangleleft id\_personal\_account}$$personal\_account)_{id\_subscriber\blacktriangleright\!\blacktriangleleft id\_subscriber}$ $subscriber\_under\_contract)_{id\_contract\blacktriangleright\!\blacktriangleleft id\_contract}$tariff\_plan\_under\_the\_contract)

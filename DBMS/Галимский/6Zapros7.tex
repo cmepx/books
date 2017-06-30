@@ -1,0 +1,102 @@
+Формулировка: найти преподавателей кафедры, которые ведут больше всего занятий по каждой дисциплине.
+\par\medskip
+Запрос на SQL:
+\begin{verbatim} 
+SELECT teach AS 'преп-ль', sub AS 'дисц-на', count
+FROM (SELECT teach_id AS teach, ts_sub_id AS sub,
+COUNT(les_id) AS count
+      FROM teacher JOIN teacher_subject ON teach_id =
+      ts_teach_id
+      JOIN lesson ON ts_sub_id = les_sub_id AND teach_id
+      = les_teach_id
+      WHERE teach_fac_id = 2 AND teach_dep_id = 3
+      GROUP BY teach_id, ts_sub_id
+      ORDER BY SUb, COUnt DESC) AS subcount 
+GROUP BY sub 
+HAVING MAX(count) <= count
+ORDER BY sub,  teach ;
+\end{verbatim}
+\par\medskip
+{\bf Результат выполнения запроса:}\\
+\begin{tabular}{|r|r|r|}
+\hline
+ преп-ль  & дисц-на &  count\\ 
+\hline
+00084 & 6 & 5\\
+\hline
+00013 & 19 & 7\\
+\hline
+00084 & 95 & 2\\
+\hline
+\end{tabular}
+\par\medskip
+{\bf Время выполнения запроса:}\\
+90 rows in set  (0.03 sec)
+\par\medskip
+{\bf Анализ эффективности запроса:}\\
+\begin{flushleft}
+\begin{tabular}{|r|l|l|l|m{6cm}<{\raggedright}|}
+\hline
+id & select\_type & table & type & possible\_keys \\
+\hline
+1 & PRIMARY &   <derived2> & ALL & NULL\\
+\hline
+2 & DERIVED & teacher & index\_merge & PRIMARY, teach\_dep\_id,~teach\_fac\_id\\
+\hline
+2 & DERIVED & lesson & ref  & les\_sub\_id,les\_teach\_id\\
+\hline
+2 & DERIVED & teacher\_subject & eq\_ref & PRIMARY,~ts\_teach\_id, ts\_index\_complex\_teach\_sub\\
+\hline
+\end{tabular}
+\par\medskip
+\begin{tabular}{|l|l|m{6cm}<{\raggedright}|}
+\hline
+key  & key\_len & ref \\
+\hline
+NULL & NULL & NULL\\                        
+\hline                                                                                               
+teach\_fac\_id,teach\_dep\_id & 1,1 & NULL\\
+\hline
+les\_teach\_id & 2 & timetable.teacher.teach\_id \\ 
+\hline                                                                       
+PRIMARY & 4 & timetable.lesson.les\_sub\_id, timetable.lesson.les\_teach\_id\\ 
+\hline
+\end{tabular}
+\par\medskip
+\begin{tabular}{|r|m{12cm}<{\raggedright}|}
+\hline
+rows & Extra\\
+\hline
+259  &   Using temporary;  Using filesort\\
+\hline
+3 & Using~intersect(teach\_fac\_id,teach\_dep\_id); Using~where; Using~index;  Using~temporary;  Using~filesort\\
+\hline
+234 & \\                                                                                                                         \hline
+1 & Using~where; Using~index\\
+\hline
+\end{tabular}
+\end{flushleft}
+\par\medskip
+Выполняется 2 запроса. 1й запрос отложенный (он будет обрабатывать 259 строк). Вложенный запрос обходит всю таблицу teacher из-за 'where' (поэтому тип прохода
+'index\_merge'). Потом присоединяются остальные таблицы.
+\par\medskip
+Формула реляционной алгебры:
+\begin{center}
+$
+\rho_{\underset{teach=\text{\tiny ``Преп-ль''}}{sub=\text{\scriptsize``Дисциплина''}}}
+\biggl(\pi_{\underset{teach}{sub}}
+\Bigl(\delta_{MAX(count)\leq count}
+\bigl(\rho_{A=subcount}
+\bigl) \Bigl) \biggl)$\\
+\par\medskip
+$\text{Где }A=\rho{teach\_id=teach}\biggl(\pi_{teach\_id}
+\Bigl(\gamma_{teach\_id}
+\bigl(\delta_{\underset{teach\_dep\_id=3}{teach\_fac\_id=2}}
+(teacher)\bigl)\Bigl)\biggl)
+\underset{teach\_id=ts\_teach\_id}{\blacktriangleright\!\!\blacktriangleleft}
+\rho_{ts\_sub\_id=sub}\Bigl(\pi_{ts\_sub\_id}\bigl(\gamma_{ts\_sub\_id}
+(teacher\_subject)\bigl)\Bigl)
+\underset{\underset{teach\_id=les\_teach\_id}{ts\_sub\_id=ts\_les\_id}}{\blacktriangleright\!\!\blacktriangleleft}
+\rho_{COUNT(les\_id)=count}\bigl(\pi_{COUNT(les\_id)}(lesson) \bigl)
+$
+\end{center}

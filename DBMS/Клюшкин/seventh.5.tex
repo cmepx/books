@@ -1,0 +1,91 @@
+Пополнения.
+\begin{verbatim}
+select id_tariff_plan, count(id_addition) as ad
+from addition
+join personal_account on
+addition.id_personal_account=personal_account.id_personal_account
+join subscriber_under_contract on
+personal_account.id_subscriber=subscriber_under_contract.id_subscriber
+join tariff_plan_under_the_contract on
+subscriber_under_contract.id_contract=tariff_plan_under_the_contract.id_contract
+group by id_tariff_plan;
+\end{verbatim}
+Расход.
+\begin{verbatim}
+select id_tariff_plan, count(id_expense) as ex
+from expense
+join tariff_plan_under_the_contract on
+expense.id_tariff_plan_under_the_contract=
+tariff_plan_under_the_contract.id_tariff_plan_under_the_contract
+group by id_tariff_plan;
+\end{verbatim}
+
+\begin{table}[th]
+\rotatebox{90}
+{
+\centering
+{
+\begin{tabular}{|l|l|l|l|l|l|l|l|l|l|}
+\hline
+id & select\_type & table & type & possible\_keys & key & key\_len & ref & rows & Extra \\
+\hline
+1 & SIMPLE & addition & index & id\_personal\_account & id\_personal\_account & 4 & NULL & 475 & Using index; Using temporary; Using filesort\\
+1 & SIMPLE & personal\_account & eq\_ref & PRIMARY,id\_subscriber & PRIMARY & 4 & biling\_system.addition.id\_personal\_account & 1 & -\\
+1 & SIMPLE & subscriber\_under\_contract & ref & id\_Subscriber,id\_contract & id\_Subscriber & 4 & biling\_system.personal\_account.id\_subscriber & 4 & -\\
+1 & SIMPLE & tariff\_plan\_under\_the\_contract & index & PRIMARY & id\_tariff\_plan & 4 & NULL & 223 & Using index\\
+1 & SIMPLE & expense & ref & id\_tariff\_plan\_under\_the\_contract & id\_tariff\_plan\_under\_the\_contract & 4 & biling\_system.tariff\_plan\_under\_the\_contract.id\_tariff\_plan\_under\_the\_contract & 1 & Using index\\
+\hline
+\end{tabular}
+}
+}
+\end{table}
+
+\begin{table}[th]
+\begin{minipage}{1.2\linewidth}
+\begin{center}
+\begin{tabular}{|l|l|}
+\hline
+id\_tariff\_plan & ad\\
+\hline
+1 & 455\\
+2 & 455\\
+3 & 424\\
+4 & 421\\
+5 & 446\\
+\hline
+\end{tabular}
+\begin{verbatim}
+25 rows in set(0.07 sec)
+\end{verbatim}
+\begin{tabular}{|l|l|}
+\hline
+id\_tariff\_plan & ad\\
+\hline
+1 & 1956\\
+2 & 2107\\
+\hline
+\end{tabular}
+\end{center}
+\end{minipage}
+\end{table}
+\begin{verbatim}
+25 rows in set(0.05 sec)
+\end{verbatim}
+
+Пополнение.
+$\Pi_{id\_tariff\_plan,ad}$($\rho\_{count(id\_addition)=ad}$($\gamma_{id\_tariff\_plan}$\\
+((($personal\_account_{id\_personal\_acount \blacktriangleright\!\blacktriangleleft id\_personal\_account}$$addition)_{id\_subscriber \blacktriangleright\!\blacktriangleleft id\_subscriber}$$\\subscriber\_under\_contract)_{id\_contract \blacktriangleright\!\blacktriangleleft id\_contract}$tariff\_plan)
+
+Расход.
+$\Pi_{id\_tariff\_plan,ex}$($\rho_{count(id\_expense)=ex}$($\gamma_{id\_tariff\_plan}$)\\
+$expense_{id\_tariff\_plan\_under\_the\_contract\blacktriangleright\!\blacktriangleleft id\_tariff\_plan\_under\_the\_the\_contract}$\\tariff\_plan\_under\_the\_contract)))
+
+Запрос выполняется абсолютно аналогичным способом, что и предыдущие.
+
+\begin{figure}[th]
+\begin{center}
+\includegraphics[scale=0.7]{IMG5}
+\end{center}
+\caption{Диаграмма использования тарифов}
+\label{block}
+\end{figure}

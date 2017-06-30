@@ -1,0 +1,90 @@
+Формулировка: Вывести число занятий в каждой аудитории и факультете.
+\par\medskip
+Запрос на SQL:
+\begin{verbatim} 
+SELECT fac_id AS FAC, aud_id AS AUD, aud_corps_abbr AS CORPS,
+      (SELECT COUNT(le_id) AS LES
+       FROM lesson JOIN training_groups ON les_id=tg_1es_id 
+       JOIN groups ON tg_gr_num=gr_num 
+       WHERE 1es_aud_id = AUD AND 1es_corps_abbr = CORPS 
+       AND gr_fac_id = FAC) AS 'Кол-во занятий1 
+FROM faculty, audience ORDER BY CORPS, AUD, FAC;
+\end{verbatim}
+
+\par\medskip
+{\bf Результат выполнения запроса:}\\
+\begin{tabular}{|r|r|c|r|}
+\hline
+FAC & AUD & CORPS & Кол-во занятий\\
+\hline
+01 & 1 & дБОнкУ & 18\\
+\hline
+02 & 1 &  дБОнкУ & 32\\
+\hline
+\multicolumn{4}{|l|}{\dots}\\
+\hline
+10 & 5 & ЭзжУУ & 24\\
+\hline
+\end{tabular}
+\par\medskip
+{\bf Время выполнения запроса:}\\
+250 rows in set  (0.36 sec)
+\par\medskip
+\begin{flushleft}
+{\bf Анализ эффективности запроса:}
+\begin{tabular}{|r|m{3cm}|m{2cm}|l|m{3cm}|l|}
+\hline
+id & select\_type & table & type & possible\_keys & key\\
+\hline
+1 & PRIMARY & faculty & index & NULL & PRIMARY\\
+\hline
+1 & PRIMARY & audience & index & NULL & aud\_corps\_abbr\\
+\hline
+2 & DEPENDENT SUBQUERY & groups & ref & PRIMARY, gr\_fac\_id & gr\_fac\_id\\
+\hline
+2 & DEPENDENT SUBQUERY & training\_ groups & ref & PRIMARY, tg\_gr\_num & tg\_gr\_num\\
+\hline
+2 & DEPENDENT SUBQUERY & lesson & eq\_ref & PRIMARY, les\_aud\_id, les\_corps\_abbr & PRIMARY\\
+\hline
+\end{tabular}
+\par\medskip
+\begin{tabular}{|l|l|r|p{4cm}<{\raggedright}|}
+\hline
+key\_len & ref & rows & Extra\\
+\hline
+1 & NULL & 10 & Using~index; Using~temporary; Using~filesort\\
+\hline
+32 & NULL & 25 & Using~index;   Using~join~buffer\\
+\hline
+1 & func & 2 & Using~index \\
+\hline
+11 & timetable.groups.gr\_num & 35 & Using~index\\
+\hline
+3 & timetable.training\_groups.tg\_les\_id & 1 & Using~where\\
+\hline
+\end{tabular}
+\end{flushleft}
+\par\medskip
+Запрос работает не очень хорошо. В 1м запросе обрабатывается 250 строк, используется присоединяемый буфер. Во 2м запросе выполняется 3 подзапроса, в который обрабатывается 70 строк.
+\par\medskip
+\newpage
+Формула реляционной алгебры:
+\begin{center}
+$\rho_{\underset{\underset{\underset{A=\text{\tiny``Кол-во занятий''}}{aud\_corps\_id=CORPS}}{aud\_id=AUD}}{fac\_id=FAC}}
+\bigl(\pi_{\underset{\underset{aud\_corps\_id}{aud\_id}}{fac\_id}}(faculty,audience)\bigl)
+$
+$\text{Где }A=\biggl(\rho_{\underset{\text{\tiny{``Кол-во занятий''}}}{count(les\_id)}}\Bigl(\pi_{count(les\_id)}\bigl(\delta_{\underset{les\_corps\_abbr=CORPS}{les\_aud\_id=AUD}}
+(lesson)\bigl)\Bigl)
+\underset{les\_id=tg\_les\_id}{\blacktriangleright\!\!\blacktriangleleft}
+\Bigl(training\_groups\Bigl)
+\underset{tg\_gr\_num=gr\_num}{\blacktriangleright\!\!\blacktriangleleft}
+\Bigl(\delta_{gr\_fac\_id=FAC}\bigl(groups\bigl)\Bigl)\biggl)
+$
+\newpage
+График:
+\end{center}
+\begin{figure}[h!]
+\centering
+\includegraphics{07.png}
+\hfill
+\end{figure}

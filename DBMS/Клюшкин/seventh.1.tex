@@ -1,0 +1,85 @@
+\begin{verbatim}
+select id_subscriber
+from (
+    select id_subscriber as sub
+        from subscriber_under_contract
+        join(
+           select id_contract as contr
+              from (
+                  select id_contract, count(*) as one
+                      from tariff_plan_under_the_contract 
+                      group by tariff_plan_under_the_contract.id_contract) 
+           as res
+               where one = 3)
+        as res1 on subscriber_under_contract.id_contract = contr) as res2
+join personal_account on personal_account.id_subscriber = sub
+where balance > 0
+group by id_subscriber
+order by id_subscriber
+\end{verbatim}
+
+\begin{table}[th]
+\rotatebox{90}
+{
+\centering
+{
+\begin{tabular}{|l|l|l|l|l|l|l|l|l|l|}
+\hline
+id & select\_type & table & type & possible\_keys & key & key\_len & ref & rows & Extra \\
+\hline
+1 & PRIMARY & (derived2) & ALL & NULL & NULL & NULL & NULL & 3695 & Using temporary; Using filesort\\
+1 & PRIMARY & personal\_account & ref & id\_subscriber & id\_subscriber & 4 & res2.sub & 1 & Using where\\
+2 & DERIVED & (derived3) & ALL & NULL & NULL & NULL & NULL & 368 & -\\
+2 & DERIVED & subscriber\_under\_contract & ref & id\_contract & id\_contract & 4 & res1.contr & 3 & -\\
+3 & DERIVED & (derived4) & ALL & NULL & NULL & NULL & NULL & 1180 & Using where\\
+4 & DERIVED & tariff\_plan\_under\_the\_contract & index & NULL & id\_contract & 4 & NULL & 2460 & Using index\\
+\hline
+\end{tabular}
+}
+}
+\end{table}
+
+\begin{table}[ht!]
+\begin{center}
+\begin{tabular}{|l|}
+\hline
+id\_subscriber \\
+\hline
+1\\
+2\\
+3\\
+4\\
+6\\
+10\\
+12\\
+13\\
+14\\
+\hline
+\end{tabular}
+\end{center}
+\end{table}
+
+\begin{verbatim}
+767 rows in set (0.04 sec)
+\end{verbatim}
+
+($\gamma_{id\_subscriber}$($\Pi_{id\_subscriber}$($\sigma_{balance>0}
+$($\rho_{res2}$($\rho_{id\_subscriber=sub}$($\Pi_{id\_subscriber}\\
+$(subscriber\_inder\_the\_contract)))$)_{id\_contract
+\blacktriangleright\!\blacktriangleleft
+contr}$($\rho_{res1}$($\sigma_{id\_contract}$($\rho_{id\_contract}$\\
+($\rho_{id\_contract}$($rho\_{res}$($\rho_{count(*)=one}$($\gamma_{count}\\
+$($\sigma_{id\_contract,count(*)}$(tariff\_plan\_under\_the\_contract)))))))))))
+
+
+Тип  DERIVED говорит,   что  существуют  наследованные (вторичные) таблица SELECT,   т.е.   вложенные  запросы во  FROM. У нас 3 соединения тип ALL и один index. Index по сути тот же самый ALL, только работает быстрее за счет дерева индексов. Из таблицы с типом ref будут читаться только строки с интересующим нас ключом. Для выполнения этого запроса будет создана временная таблица, использована сортировка, индекс и правило отбора жпеге.
+
+($\gamma_{id\_subscriber}$($\Pi_{id\_subscriber}$($\sigma_{balance>0}
+$($\rho_{res2}$($\rho_{id\_subscriber=sub}$($\Pi_{id\_subscriber}\\
+$(subscriber\_under\_the\_contract)))$)_{id\_contract
+\blacktriangleright\!\blacktriangleleft
+contr}$($\rho_{res1}$($\sigma_{one=3}$($\rho_{id\_contract=contr}$\\
+($\sigma_{id\_contract}$($rho\_{res}$($\rho_{count(*)=one}$($\gamma_{count}\\
+$($\sigma_{id\_contract,count(*)}$(tariff\_plan\_under\_the\_contract)))))))))))
+
+Хотя MySql должен просмотреть большое количество строк (3695*368*1100*2460) запрос работает быстро, потому что используется where и часть

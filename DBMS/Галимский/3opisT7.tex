@@ -1,0 +1,41 @@
+\begin{table}[h!]
+\rotatebox{90}%
+{ 
+\begin{minipage}{1.3\linewidth}
+\begin{center}
+\caption{<<День недели>> (week\_day)}	
+\label{tab:10}		
+\begin{tabular}{|m{3.5cm}|m{3cm}|>{\centering}m{1.4cm}|>{\centering}m{1.2cm}|>{\centering}m{3cm}|m{6cm}|}
+\hline
+Имя на русском &	Имя на английском	& PK/FK & NOT NULL & Тип данных	&  Описание	\\
+\hline		
+Сокр. название дня недели & wd\_abbr & PK	& $+$ & VARCHAR (2) & Сокращенное название дня недели. Например: \textquotedblleft пн\textquotedblright.\\
+\hline
+Название дня & wd\_name & $-$  & $+$ & VARCHAR (15) & Полное название дня недели.\\
+\hline
+\end{tabular}
+\medskip
+\caption{<<Время занятия>> (time)}
+\label{tab:11}
+\begin{tabular}{|m{3.5cm}|m{3cm}|>{\centering}m{1.4cm}|>{\centering}m{1.2cm}|>{\centering}m{3cm}|m{6cm}|}
+\hline
+Имя на русском &	Имя на английском	& PK/FK & NOT NULL & Тип данных	&  Описание	\\
+\hline
+Время занятия & time\_hours & PK & $+$ & VARCHAR (15) & Время начала и конца 		занятия\\
+\hline
+\end{tabular}
+\medskip
+\caption {<<Регулярность>> (regularity)}
+\label{tab:12}
+\begin{tabular}{|m{3.5cm}|m{3cm}|>{\centering}m{1.4cm}|>{\centering}m{1.2cm}|>{\centering}m{3cm}|m{6cm}|}
+\hline
+Имя на русском &	Имя на английском	& PK/FK & NOT NULL & Тип данных	&  Описание	\\
+\hline
+Сокр. назв. регулярности &	regul\_abbr & PK & $+$ & VARCHAR (2) & Сокращенное название регулярности. Например: \textquotedblleft 1н\textquotedblright.\\
+\hline
+Название регулярности & regul\_name & $-$ & $+$ & VARCHAR (30) & Полное название регулярности.\\
+\hline
+\end{tabular}
+\end{center}
+\end{minipage} }
+\end{table}

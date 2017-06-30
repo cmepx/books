@@ -1,0 +1,252 @@
+‘ормулировка: ¬ывести число потоков и групп, которые занимаютс€ в каждой аудитории. Ќарисовать график.\\
+„исло групп: запрос на SQL (2 интерпретации):
+\begin{MySpisok1}
+\item \begin{verbatim} 
+SELECT COUNT(tg_gr_num) AS 'кол-во групп', les_aud_id AS 
+       'јудитори€', les_corps_abbr AS ' орпус' 
+FROM training_groups, lesson
+WHERE tg_les_id = les_id 
+GROUP BY les_aud_id, les_corps_abbr 
+ORDER BY les_corps_abbr, les_aud_id;
+\end{verbatim}
+
+\par\medskip
+{\bf –езультат выполнени€ запроса:}\\
+\begin{tabular}{|r|r|r|}
+\hline
+ ол-во групп & јудитори€ &  орпус \\
+\hline
+253 &	1 &	дЅќнк”\\
+\hline
+183 &	2 &	дЅќнк”\\
+\hline
+137 &	3 &	дЅќнк”\\
+\hline
+120 &	4 &	дЅќнк”\\
+\hline
+149 &	5 &	дЅќнк”\\
+\hline
+236 &	1 &	ечдбн\\
+\hline
+\multicolumn{3}{|l|}{\dots}\\
+\hline
+258 &	5 & —эуќу“\\
+\hline
+194 &	1 & Ёз∆≈≈\\
+\hline
+247 &	2 & Ёз∆≈≈\\
+\hline
+229 &	3 & Ёз∆≈≈\\
+\hline
+158 &	4 & Ёз∆≈≈\\
+\hline
+164 &	5 & Ёз∆≈≈\\
+\hline
+\end{tabular}
+\par\medskip
+{\bf ¬рем€ выполнени€ запроса:}\\
+25  rows in set  (0.02 sec)\\
+\medskip
+{\bf јнализ эффективности запроса:}\\
+\begin{tabular}{|r|l|m{2cm}|l|l|l|l|}
+\hline
+id & select\_type & table & type & possible\_keys & key & key\_len\\
+\hline
+1 & SIMPLE & training\_ groups & index & PRIMARY & tg\_gr\_num & 11\\
+\hline
+1 & SIMPLE & lesson & eq\_ref & PRIMARY & PRIMARY & 3\\
+\hline
+\end{tabular}
+\par\medskip
+\begin{tabular}{|l|r|m{5cm}|}
+\hline
+ref & rows & Extra\\
+\hline
+NULL & 3800 & Using~index; Using~temporary; Using~filesort\\
+\hline
+timetable.training\_groups.tg\_les\_id & 1 & \\
+\hline
+\end{tabular}
+\par\medskip
+¬ыполн€етс€ один запрос с простыми выборками. »спользуетс€ временна€ таблица. ќбрабатываетс€ 3800 строк.\\
+\item \begin{verbatim}
+SELECT COUNT(tg_gr_num) AS 'кол-во групп',
+       les_aud_id AS 'јудитори€', les_corps_abbr AS ' орпус'
+FROM training_groups JOIN lesson ON tg_les_id = les_id 
+GROUP BY les_aud_id, les_corps_abbr 
+ORDER BY les_corps_abbr, les_aud_id;
+\end{verbatim}
+\medskip
+{\bf –езультаты те же.}\\
+\end{MySpisok1}
+‘ормула рел€ционной алгебры:
+\begin{center}
+$\Bigl(\rho_{count(tg\_gr\_num)=\text{\scriptsize `` ол-во групп''}}\bigl(\pi_{count(tg\_gr\_num)}(training\_groups)\bigl)\Bigl)
+\underset{tg\_les\_id=les\_id}{\blacktriangleright\!\!\blacktriangleleft}
+\biggl(\rho_{\underset{les\_corps\_abbr=\text{\tiny ``јудитори€''}}{les\_aud\_id=\text{\scriptsize `` орпус''}}}\Bigl(\pi_{\underset{les\_corps\_abbr}{les\_aud\_id}}\bigl(\gamma_{\underset{les\_corps\_abbr}{les\_aud\_id}}(lesson)\bigl)\Bigl)\biggl)
+$
+\end{center}
+„исло потоков: запрос на SQL (2 интерпретации):
+\begin{MySpisok1}
+\item \begin{verbatim} 
+SELECT COUNT(les_id) AS 'кол-во зан€тий', les_aud_id AS 'јудитори€',
+les_corps_abbr AS ' орпус'
+FROM lesson
+WHERE les_id IN (SELECT les_id FROM lesson, training_groups 
+WHERE tg_les_id = les_id)
+GROUP BY les_corps_abbr, les_aud_id
+ORDER BY les_corps_abbr;
+\end{verbatim}
+\par\medskip
+{\bf –езультат выполнени€ запроса:}
+\begin{longtable}{|r|r|r|}
+\hline
+ ол-во групп & јудитори€ &  орпус\endfirsthead
+\hline
+ ол-во групп & јудитори€ &  орпус \endhead
+\hline
+47	& 1 & дЅќнк”\\
+\hline
+34 & 2 & дЅќнк”\\
+\hline
+23 & 3 & дЅќнк”\\
+\hline
+24 & 4 & дЅќнк”\\
+\hline
+33	& 5 & дЅќнк”\\
+\hline
+43 &  1 & ечдбн\\
+\hline
+42 & 2 & ечдбн\\
+\hline
+34 & 3 & ечдбн\\
+\hline
+27 & 4 & ечдбн\\
+\hline
+34 & 5 & ечдбн\\
+\hline
+40 & 1 & ќф‘ћЋ\\
+\hline
+32 & 2 & ќф‘ћЋ\\
+\hline
+32 & 3 & ќф‘ћЋ\\
+\hline
+44 & 4 & ќф‘ћЋ\\
+\hline
+44 & 5 & ќф‘ћЋ\\
+\hline
+44 & 1 & —эуќут\\
+\hline
+35 & 2 & —эуќут\\
+\hline
+28 & 3 & —эуќут\\
+\hline
+42 & 4 & —эуќут\\
+\hline
+47 & 5 & —эуќут\\
+\hline
+39 & 1 & Ёз∆≈≈\\
+\hline
+39 & 2 & Ёз∆≈≈\\
+\hline
+45 & 3 & Ёз∆≈≈\\
+\hline
+36 & 4 & Ёз∆≈≈\\
+\hline
+30 & 5 & Ёз∆≈≈\\
+\hline
+\end{longtable}
+\par\medskip
+{\bf ¬рем€ выполнени€ запроса:}\\
+25 rows in set  (0.34 sec)\\
+\medskip
+{\bf јнализ эффективности запроса:}\\
+\begin{tabular}{|r|m{2.7cm}|m{1.8cm}|l|m{2cm}|l|l|}
+\hline
+id & select\_type & table & type & possible\_ keys & key & key\_len\\
+\hline
+1 & PRIMARY  & lesson & ALL & NULL & NULL & NULL\\
+\hline
+2 & DEPENDENT SUBQUERY & training\_ groups & ref & PRIMARY & PRIMARY & 3\\
+\hline
+2 & DEPENDENT SUBQUERY & lesson & eq\_ref & PRIMARY & PRIMARY & 3\\
+\hline
+\end{tabular}
+\par\medskip
+\begin{tabular}{|l|r|l|}
+\hline
+ref & rows & Extra\\
+\hline
+NULL & 50360 & Using~wherhe; Using~temporary; Using~filesort\\
+\hline
+func & 2 & Using~index\\
+\hline
+func & 1 & Using~wherhe; Using~index\\
+\hline
+\end{tabular}
+
+\medskip
+¬ыполн€етс€ 2 запроса. ¬ 1м выполн€етс€ проход по всем строкам, что не есть хорошо. ¬о 2м выполн€ютс€ зависимые запросы, где смотритс€ 2 строки.\\
+\medskip
+\item  \begin{verbatim}
+SELECT COUNT(STREAM.les_aud_id) AS 'кол-во зан€тий',
+STREAM.les_aud_id AS 'јудитори€' STREAM.les_corps_abbr AS 'корпус'
+FROM (SELECT couNT(les_id) AS 'кол-во зан€тий',les_aud_id, 
+les_corps_abbr 
+      FROM lesson JOIN training_groups ON tg_les_id=les_id 
+      GROUP BY tg_les_id) AS STREAM
+GROUP BY STREAM les_aud_id, STREAM.les_corps_abbr 
+ORDER BY les_corps_abbr, les_aud_id;
+\end{verbatim}
+\par\medskip
+{\bf –езультат выполнени€ запроса:} тот же.
+\par\medskip
+{\bf ¬рем€ выполнени€ запроса:}\\
+25 rows in set  (0.34 sec)
+\par\medskip
+{\bf јнализ эффективности запроса:}\\
+\begin{tabular}{|r|l|m{2.3cm}|l|l|l|l|}
+\hline
+id & select\_type & table & type & possible\_keys & key & key\_len\\
+\hline
+1 & PRIMARY & <derived> & ALL & NULL & NULL & NULL \\
+\hline
+2 & DERIVED & training\_ groups & index & PRIMARY & PRIMARY & 14 \\
+\hline
+2 & DERIVED & lesson & eq\_ref & PRIMARY & PRIMARY & 3 \\
+\hline
+\end{tabular}
+\par\medskip
+\begin{tabular}{|l|r|l|}
+\hline
+ref & rows & Extra\\
+\hline
+NULL & 918 & Using~temporary; Using~filesort\\
+\hline
+NULL & 3800 & Using index\\
+\hline
+timetable.training\_groups.tg\_les\_id & 1 & \\
+\hline
+\end{tabular}
+
+\medskip
+¬ыполн€етс€ 2 запроса. 1й создает временную таблицу. 2й обрабатывает вложенный вопрос и обрабатывает 3800 строк.\\
+\end{MySpisok1}
+\newpage
+‘ормула рел€ционной алгебры:
+\begin{center}
+$\rho_{\underset{\underset{STREAM.les\_corps\_abbr=\text{\tiny `` орпус''}}{STREAM.les\_aud\_id=\text{\tiny ``јудитори€''}}}{count(STREAM.les\_aud\_id=\text{\scriptsize `` ол-во зан€тий''})}}
+\Biggl\{\pi_{\underset{\underset{STREAM.les\_corps\_abbr}{STREAM.les\_aud\_id}}{count(STREAM.les\_aud\_id)}}
+\biggl(\gamma_{\underset{STREAM.les\_corps\_abbr}{STREAM.les\_aud\_id}}
+$
+$\Bigl[\rho_{STREAM}\bigl((\pi_{\underset{\underset{les\_corps\_abbr}{les\_aud\_id}}{count(les\_id)}}(lesson))
+\underset{tg\_les\_id=les\_id}{\blacktriangleright\!\!\blacktriangleleft}
+(\gamma_{tg\_les\_id}(training\_groups))\bigl)\Bigl]\biggl)\Biggl\}$
+\end{center}
+\medskip
+{\bf √рафик:}
+\begin{figure}[ht]
+\centering
+\includegraphics{05.png}
+\hfill
+\end{figure}
