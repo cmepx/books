@@ -10,15 +10,24 @@ Bookmark#6=0
 Bookmark#7=0
 Bookmark#8=0
 Bookmark#9=0
+<<<<<<< HEAD
 CaretPos.X=12
 CaretPos.Y=123
+=======
+CaretPos.X=23
+CaretPos.Y=151
+>>>>>>> be324610206982499eda067220ecdfdba62862ef
 CharSet=def
 FileName=database.tex
 FoldedLines=
 IsMainFile=yes
 Opened=yes
 ScrollPos.X=0
+<<<<<<< HEAD
 ScrollPos.Y=98
+=======
+ScrollPos.Y=137
+>>>>>>> be324610206982499eda067220ecdfdba62862ef
 SearchListCount=0
 ShowSyntax=yes
 SpellChecking=yes
