@@ -1,0 +1,27 @@
+\begin{table}[h!]
+\rotatebox{90}%
+{ 
+\begin{minipage}{1.3\linewidth}
+\begin{center}
+\caption{ <<Учебная группа>> (group)}
+\label{tab:4}
+\begin{tabular}{|m{3.5cm}|m{3cm}|>{\centering}m{1.4cm}|>{\centering}m{1.2cm}|>{\centering}m{3cm}|m{6cm}|}
+\hline
+Имя на русском &	Имя на английском	& PK/FK & NOT NULL & Тип данных	&  Описание	\\
+\hline
+№ группы & gr\_num & PK & $+$ &	VARCHAR (9) & Номер группы в формате WXXYY/ZZ, где W - номер курса, XX - номер факультета, YY - номер кафедры, ZZ -номер группы на кафедре.\\
+\hline
+№ курса & 	gr\_course &	$-$ &	$+$ & TINYINT (1) UNSIGNED & Диапазон значений от 1 до 6.\\
+\hline
+№ факультета & gr\_fac\_id & FK & $+$ & TINYINT (2) UNSIGNED ZEROFILL & Описание смотрите в таблицe \ref{tab:1} \\
+\hline
+№ кафедры & gr\_dep\_id & FK & $+$ & TINYINT (2) UNSIGNED & Описание смотрите в таблицe \ref{tab:2}\\
+\hline
+id группы на кафедре & gr\_id & $-$ & $+$ & TINYINT (2) UNSIGNED & Это число может быть одно-, или двухзначным.\\
+\hline
+Размер группы & gr\_size & $-$ & $+$ & TINYINT (2) UNSIGNED & Размер- количество человек. Диапазон от 1 до 30.\\
+\hline
+\end{tabular}
+\end{center}
+\end{minipage} }
+\end{table}

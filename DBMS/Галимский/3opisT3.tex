@@ -1,0 +1,27 @@
+\begin{table}[h!]
+\rotatebox{90}%
+{ 
+\begin{minipage}{1.35\linewidth}
+\begin{center}
+\caption{ <<Преподаватель>> (teacher)}
+\label{tab:3}
+\begin{tabular}{|m{3.5cm}|m{3.5cm}|>{\centering}m{1.4cm}|>{\centering}m{1.2cm}|>{\centering}m{3cm}|m{6cm}|}
+\hline
+Имя на русском &	Имя на английском	& PK/FK & NOT NULL & Тип данных	&  Описание	\\
+\hline
+Табельный номер преподавателя & teach\_id & PK & $+$ & SMALLINT (5) UNSIGNED ZEROFILL AUTO INCREMENT & Примерное количество преподавателей около 10000 человек.\\
+\hline
+Ф.И.О. преподавателя & teach\_name & $-$ & $+$ & VARCHAR (50) & Максимальный размер Ф.И.О. примерно 50 символов.\\
+\hline
+Учёное звание & teach\_academstat & $-$ & $+$ &	VARCHAR (50) & В переменную записываются все звания преподавателя. Пример: \textquotedblleft д.т.н, профессор\textquotedblright.\\
+\hline
+Телефоны &	teach\_phone &	$-$ & $-$ &	VARCHAR (50) &	В переменную записываются все контактные номера преподавателя через запятую.\\
+\hline
+№ руководящей кафедры &	teach\_dep\_id & FK &	$+$ & TINYINT(2) UNSIGNED &	Описание смотрите в таблице \ref{tab:2}\\
+\hline
+№ руководящего факультета & teach\_fac\_id & FK &	$+$ & TINYINT (2) UNSIGNED ZEROFILL	& Описание смотрите в таблице \ref{tab:1}\\
+\hline
+\end{tabular}
+\end{center}
+\end{minipage} }
+\end{table}

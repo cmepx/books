@@ -1,0 +1,406 @@
+\begin{verbatim}
+#include <iostream> 
+#include <fstream> 
+#include <sstream> 
+#include <string>
+#include <cstdlib>
+#include <time.h>
+#include <string>
+#include <conio.h>
+#include <Windows.h>
+#include <ctime>
+
+using namespace std;
+
+string status () { 
+   string act;
+   act = "actived";
+   string no_act;
+   no_act = "No actived";
+   string block;
+   block = "Blocked";
+   int k;
+   k = rand()%2 + 1;
+   if (k == 1)
+      return act;
+   if (k == 2)
+      return no_act;
+   if (k == 3)
+      return block;
+}
+string name () {
+   ifstream name;
+   string s1;
+   int q = 0,w = 0,count = 1;
+   name.open("name.txt"); 
+   while (!name.eof()){
+      name » s1;
+      count++;
+   } 
+name.close();
+   //name.ignore(name.rdbuf() ->in_avail());
+   q = rand()%count + 1;
+   name.open("name.txt");
+   while (q != w) {
+      if (name.eof()) break;
+      name » s1;
+      w++;
+   }
+   name.close();
+   return s1;
+}
+string surname () {
+   string s3;
+   ifstream fam;
+   fam.open("fam.txt"); 
+   int count = 1,q = 0,w = 0; 
+   while (!fam.eof()) {
+      fam » s3;
+      count++;
+   }
+   fam.close(); 
+   fam.open("fam.txt"); 
+   q = rand()%count + 1;
+   while (q != w) 
+   { 
+      if (fam.eof()) 
+         break; 
+      fam » s3;
+      w++; 
+   }
+   fam.close(); 
+   return s3;
+}
+string patronymic () {
+   ifstream ot;
+   ot.open("ot.txt");
+   string s2;
+   int count = 1,q = 0,w = 0;
+   while (!ot.eof()){
+      getline(ot,s2);
+      count++;
+   }
+   ot.close();
+   ot.open("ot.txt"); 
+   q = rand()%count + 1;
+   while (q != w)
+   {
+      if (ot.eof())
+         break;
+      ot » s2;
+      w++;
+   }
+   ot.close(); 
+   return s2;
+}
+string place_of_work (){
+   ifstream TextFilel;
+   TextFilel.open("place_of_work.txt");
+   string s2;
+   int count = 1,q = 0, w = 0;
+   while(!TextFilel.eof())
+   {
+      getline(TextFilel,s2);
+      count++;
+   }
+   TextFilel.close();
+   TextFilel.open("place_of _work.txt");
+   q = 1 + rand()%count;
+   while (q!=w)
+   {
+      if (TextFilel.eof()) 
+         break;
+      getline(TextFilel,s2);
+      w++;
+   }
+   TextFilel. close(); 
+   return s2;
+}
+string name_of_tariff (){
+   ifstream TextFile1;
+   TextFilel. open ( "tarif.txt"); string s2; int count = 1,q = 0,w = 0;
+   while (! TextFilel. eof())
+   {
+      getline(TextFile1,s2);
+      count ++;
+   }
+   TextFilel. close();
+   TextFilel. open ( "tarif.txt");
+   q = 1 + rand()%count;
+   while (q!=w) {
+      if (TextFilel. eof()) 
+         break;
+      getline(TextFile1, s2) ;
+      w++;
+   }
+   TextFile1. close(); 
+      return s2;
+   }
+string activity () {
+   string ss = "íåàêòèâíûé";
+   int q = 1 + rand()%2;
+   if (q == 1) ss = "àêòèâíûé";
+   return ss;
+}
+string randomDate () {
+   string date, year_s, month_s, day_s; 
+   int year = 1892+rand()%120;
+   int month = 1+rand()%12;
+   int day = 1+rand()%31;
+   if(year%4 != 0) {
+      if ( month == 4 | | month == 6 | | month == 9 | | month == 11 ) { 
+         day = l+rand()%30;
+      }
+      if ( month == 2)
+         day = l+rand()%28;
+   } 
+   else {
+      if ( month == 4 | | month == 6 | | month == 9 | | month == 11)
+      { 
+         day = l+rand()%30;
+      }
+      if ( month == 2)
+         day = 1 + rand()%29;
+   }
+   stringstream ss, year_ss, month_ss, day_ss;
+   year_ss « year;
+   year_ss » year_s;
+   month_ss « month;
+   month_ss » month_s;
+   day_ss « day;
+   day_ss » day_s;
+   if (month_s.size()  != 2)
+      month_s = string("0") + month_s; 
+   if (day_s.size()  != 2)
+      day_s = string("0") + day_s; 
+   date = year_s + month_s + day_s; 
+   return date;
+}
+int balance (){
+   int bal = (((double)(rand()%100)/100)+rand()%5000);
+   int w = 1 + rand()%5; 
+   if( w == 1)
+      bal = -bal;
+   return bal;
+}
+int main () {
+   srand ( time(NULL) );
+   ofstream load_data ("load_data3.sql".ios::trunc);
+   load_data « "SET character_set_client = cp1251;"«endl;
+   load_data « "use biling_system" « endl;
+   int tariff_plan_count = 25;
+   int subscriber_count = 1000;
+   int contract_count = 1100;
+   int personal_account_count = subscriber_count;
+   int expense_count = 50;
+   // operation
+   load_data « "insert into operation (name_of_operation,tariffing_unit) values
+ ('Âûçîâ','ñåêóíäà'), ('ÑÌÑ,'ñîîáùåíèå'), ('ÌÌÑ','ñîîáùåíèå'), ('Èíòåðíåò',
+ 'êèëîáàéò'), ('Ãîëîñîâàÿ ïî÷òà', 'ñåêóíäà');"«endl;
+
+   //tariff_plan
+
+   load_data « "insert into tariff_plan
+(name,connection_cost,monthly_fee,type_of_a_monthly_fee>activity) values "; 
+   for (int i = 0; i < tariff_plan_count; i++){
+      int monthly_fee = rand()%1000;
+      string type_of_a_monthly_fee = "NULL"; 
+      if(monthly_fee != 0){
+         int i = 1 + rand()%2;
+         if (i == 1) type_of_a_monthly_fee = "åæåäíåâíàÿ"; 
+         else type_of a monthly_fee = "åæåìåñÿ÷íàÿ";
+       }
+       load_data «
+"("'«name_of_tariff()«.....«","«(100+rand()%1000)«","«monthly_fee«","
+«type_of_a_monthly_fee«"','"«activity()«"')";
+       /*load_data « "insert into tariff_plan set name =
+'"«name_of_tariff()«"', connection_cost = "«(100+rand()%1000)«", monthly_fee =
+ "«monthly_fee«", type_of_a_monthly_fee = '"«
+                  type_of_a_monthly_fee«"', activity =1"«activity()«"';"«endl;*/
+      if( i < tariff_plan_count - 1)
+         load_data « ", "; 
+      else load_data « ";" « endl; 
+   }
+
+   //operation_in_tariff_plan
+
+   load_data « "insert into operation_in_tariff_plan
+(id_operation,id_tariff_plan,cost) values ";
+   for(int i = 0; i < tariff_plan_count; i++){
+      for(int j = 0; j < 5; j++){
+   /*    load_data « "insert into operation_in_tariff_plan set id_operation =
+ "«j+1«", id_tariff_plan = "«i+1«
+         ", cost = "«((double)(rand()%10000)/100)«";"«endl;*/
+            load_data « "("«j+l«"/1«i+l«","<7((double)(rand()%10000)/100)«")";
+            if( i == tariff_plan_count - 1 && j == 5-1) load_data « ";"«endl;
+            else load_data « ","; 
+      } 
+   }
+
+//subscriber
+   load_data « "insert into subscriber
+(surname,name,patronymic,date_ofj3irth,phone_for_communication,Bank_detalis,
+work_place,pa ssport) values ";
+   for (int i = 0; i < subscriber_count; i++){
+      /*load_data « "insert into subscriber set surname = '"«surname()«"', name
+ = 1"«name()«"1, patronymic = '"«patronymic()«"', date_of_birth = "«randomDate()
+      «", phone_for_communication = '+7 ("«(911+rand()%88)«") "«(100 + 
+rand()%899)«"-"«
+      (10+rand()%89)«"-"«(10+rand()%89)«'", Bank_detalis = '"«
+      (100000+rand()%899999)«"', work place = '"«place_of_work()«"', passport 
+"«(1000+rand()%8999)«(1000+rand()%8999)«(i0+rand()%89)«";"« endl;*/
+      load_data «
+"('"«surname()«"', '"«name()«"', '"«patronymic()«"',"«randomDate()«", '+7 
+("«(911+rand()%88)«") "«(100 + rand()%899)«"-"«
+      (10+rand()%89)«"-
+"«(10+rand()%89)«"',' "«(100000+rand()%899999)«"',' "«place_of_work()«"' 
+,"«(1000+ran d()%8999)«(1000+rand()%8999)«(10+rand()%89)«")";
+      if(i == subscriber_count-l)
+         load_data « ";"«endl;
+      else load_data « ","; 
+   }
+
+   ////contract
+   load_data «"insert into contract (contract_number,date,status,id_subscriber)
+values ";
+   for (int i = 0; i < contract_countj i ++){
+   /*load_data«"insert into contract set contract_number = 
+"«(1000+rand()%10000000)«", date = "«randomDate()«
+   ", status = "'«status()«"', id_subscriber = 
+"«(l+rand()%subscriber_count)«";"«endl;*/
+   load_data «
+"("«(1000+rand()%10000000)«","«randomDate()«",'"«status()«1","«
+(l+rand()%subscriber_count)«")";
+      if(i == contract_count-l)
+         load_data « ";"«endl; 
+      else load_data « ",";
+      }
+
+   //subscriber_under_contract
+
+   load_data « "insert into subscriber_under_contract
+ (id_Subscriber,id_Contract,telephone_number) values "; 
+   for (int i = 0; i <    contract_count; i++){ 
+      for (int j = 0; j < 5 + i%ll; j++){
+         /*load_data«"insert into subscriber_under_contract set id_Subscriber =
+ "«(l+rand()%subscriber_count)«", id_Contract = "«i+l«", telephone_number = '+7
+ ("«(921+rand()%4)«") "
+         «(100 + rand()\%899)«"-"«(10+rand()%89)«"-"«(10+rand()%89)«"'j"«endl;*/
+         load_data « "(" « (l+rand()\%subscriber_count)«"J"«i+l«", '+7
+ ("«(911+rand()%88)«") "«(100 + rand()%899)«"-"«
+         (10+rand()%89)«"-"«(10+rand()%89)«'")"; 
+         if(i == contract_count-l && j == 14)
+            load_data « " 
+         else load data « ",":
+         }
+         //load_data « "KO/I-BO a6oH6HTOB no floroeopy "«i+l«" = "«q«endl;
+   }
+
+// Personal_account
+        
+       load_data « "insert into Personal_account
+ (status,credit,balance,id_subscriber) values ";
+       for (int i = 0; i < personal_account_count; i++){
+          /*load_data « "insert into Personal_account set status = '" « status()
+ « "', credit = " « (rand()%10)*100 « ", balance = "« 
+(((double)(rand()%100)/100)+rand()%5000)
+            «", id_subscriber = "« (i+1) «";"«endl;*/
+            load_data « "("' « status() « "',"« (rand()%10)*100 «
+ ","«balance()«","« (i+1)«")";
+            if(i == personal_account_count-1)
+               load_data « ";"«endl; else load_data « "/'; }
+
+      // addition
+      
+      load_data « "insert into addition
+      (total,source,check_numberjid_personal_account) values ";
+      int total = 10;
+      for (int i = 0; i < 5; i++){
+         for (int j = 0; j < 100; j++){
+            /*load_data « "insert into addition set total = " « total « ",
+ source = 'Source" « rand() « '", check_number = 'checkjiumber" « rand() «"',
+ id_personal_account = "« 1 + rand()\%personal_account_count«";"«endl;*/
+            load_data « "(" « total « "/Source" « rand() «
+"','check_number"«rand() «"',"«1 + rand()5Kpersonal_account count«")";
+            if(i == 5-1 && j == 99)
+               load_data « ";"«endl; 
+            else load_data « ",";
+            }
+            total += 10;
+         }
+
+            //tariff_plan_under_the_contract
+   load_data « "insert into tariff_plan_under_the_contract
+ (id_contract,id_tariff_plan) values ";
+   int tariff_plan_under_the_contract_count = 1;
+   int tr1 = (contract count) / 3;
+   int k = 0;
+   for(k; k < tri; k++){
+      tariff_plan_under_the_contract_count ++;
+      //load_data « "insert into tariff_plan_under_the_contract set id_contract
+ = "«k+l«", id_tariff_plan = "«(l+rand()%tariff_plan_count)«";"«endl;
+      load_data « "(" «k+l«","«(l+rand()%ta~riff_plan_count)«"),";
+   }
+   tr1 +=tr1;                                                                      
+   for(k; k < tri; k++){
+      int z = (l+rand()%tariff_plan_count); 
+      int x = (l+rand()%tariff_plan_count); 
+      while ( z == x)
+         x = (l+rand()%tariff_plan_count);
+      //load_data « "insert into tariff_plan_under_the_contract set id_contract
+ = "«k+l«", id_tariff_plan = "«z«";"«endl;
+      //load_data « "insert into tariff_plan_under_the_contract set id_contract
+ = "«k+l«"j id_tariff_plan = "«x«";"«endl;
+      load_data « "(" «k+l«","«z«"),"; 
+      load_data « "(" «k+l«","«x«"),"; 
+      tariff_plan_under_the_contract_count =
+ tariff_plan_under_the_contract_count + 2;
+   }
+   for( tri; tri < contract_count; tri++){
+      int z = (l+rand()%tariff_plan_count);
+      int x = (l+rand()%tariff_plan_count);
+      int c = (l+rand()%tariff_plan_count);
+      while(z==x || z==c || x==c){
+         x = (l+rand()%tariff_plan_count); 
+         c = (l+rand()%tariff_plan count);
+      }
+      //load_data « "insert into tariff_plan_under_the_contract set id_contract
+ = "«k+1«", id_tariff_plan = "«z«";"«endl;
+      //load_data « "insert into tariff plan under the_contract set id_contract
+ = "«k+1«", id_tariff_plan = "«x«";"«endl;
+     //load_data « "insert into tariff_plan_under_the_contract set id_contract=
+ "«k+1«") id_tariff_plan = "«c«";"«endl;
+      load_data « "(" «k+l«","«z«"),";
+      load_data « "(" «k+l«","«x«")/';
+      load_data « "(" «k+l«","«c«")";
+      if(tri == contract_count-l)
+         load_data « ";"«endl;
+      else load_data « ",";
+      k++;
+      tariff_plan_under the_contract_count=tariff_plan_under_the_contract_count
+ + 3;
+   }
+   tariff_plan_under_the_contract_count=tariff_plan_under_the_contract_count-1;
+
+      //expense
+
+   load_data « "insert into expense
+(total,id_personal_account,id_tariff_plan_under_the_contract) values "; 
+   for (int j = 0; j < personal_account_count; j++){
+      //load_data « "insert into expense
+(total,id_personal_account,id_tariff_plan_under_the_contract) values ";
+      for(int i = 0; i < expense_count; i++){
+         /*load_data « "insert into expense set total = "«(l+rand()%2999)«",
+id_personal_account = "«j+1
+«", id_tariff_plan_under_the_contract = 
+"«(l+rand()%tariff_plan_under_the_contract_count)«";"«endl;*/
+         load_data « "(" «
+(l+rand()%2999)«","«j+l«","«(l+rand()%tariff_plan_under_the_contract_count)«")";
+         if(i == expense_count-l && j == personal_account_count -1)
+            load_data « ";"«endl; 
+         else load data « "/'; 
+         } 
+    }
+    return 0; 
+}
+\end{verbatim}

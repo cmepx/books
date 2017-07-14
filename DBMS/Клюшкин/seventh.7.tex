@@ -1,0 +1,65 @@
+\begin{verbatim}
+select count(id_contract), sub
+ from(
+  select id_contract, count(id_subscriber) as sub
+  from subscriber_under_contract
+  group by id_contract
+  ) as qwe group by sub;
+\end{verbatim}
+
+\begin{table}[th]
+\rotatebox{90}
+{
+\centering
+{
+\begin{tabular}{|l|l|l|l|l|l|l|l|l|l|}
+\hline
+id & select\_type & table & type & possible\_keys & key & key\_len & ref & rows & Extra\\
+\hline
+1 & PRIMARY & <derived2> & ALL & NULL & NULL & NULL & NULL & 1100 & Using temporary; Using filesort\\
+2 & DERIVED & subscriber\_under\_contract & index & NULL & id\_contract & 4             & NULL & 8712 & - \\
+\hline
+\end{tabular}
+}
+}
+\end{table}
+
+\begin{table}[h!]
+\centering
+{
+\begin{tabular}{|l|l|}
+\hline
+count(id\_contract) & sub \\
+\hline
+100 & 5\\
+100 & 6\\
+100 & 7\\
+100 & 8\\
+100 & 9\\
+100 & 10\\
+100 & 11\\
+100 & 12\\
+100 & 13\\
+100 & 14\\
+100 & 15\\
+\hline
+\end{tabular}
+}
+\end{table}
+
+\begin{verbatim}
+11 rows in set (0.03 sec)
+\end{verbatim}
+
+$\Pi_{count(id\_contract),sub}$($\rho_{count(id\_subscriber)=sub}$($\Pi_{id\_contract,count(id\_subscriber)}$($\gamma_{id\_contract}$\\
+(subscriber\_under\_the\_contract))))
+
+Сначала выполняется самый вложенный запрос, потом внешний. Используется группировка и индекс.
+
+\begin{figure}[h]
+\begin{center}
+\includegraphics[scale=0.7]{IMG7}
+\end{center}
+\caption{Количество абонентов}
+\label{block}
+\end{figure}

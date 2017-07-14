@@ -1,0 +1,67 @@
+Формулировка: Найти преподавателей, у которых наибольшее количество занятий.
+\par\medskip
+Запрос на SQL:
+\begin{verbatim} 
+SELECT COUNT(les_id) AS 'кол-во занятий', teach_name AS 'Преподаватель'
+FROM lesson JOIN teacher ON les_teach_id=teach_id GROUP BY les_teach_id
+HAVING COUNT(les_id) >= (SELECT COUNT(1es_id) FROM lesson JOIN teacher 
+ON 1es_teach_id=teach_id 
+      GROUP BY les_teach_id ORDER BY couNT(les_id) DESC LIMIT 1);
+\end{verbatim}
+
+\par\medskip
+{\bf Результат выполнения запроса:}\\
+\begin{tabular}{|r|l|}
+\hline 
+кол-во занятий &  преподаватель\\
+\hline
+544 & бягич\\
+\hline
+544 & дэХППш\\
+\hline
+\end{tabular}
+\par\medskip
+{\bf Время выполнения запроса:}\\
+2  rows in set  (0.10 sec)
+\par\medskip
+\begin{flushleft}
+{\bf Анализ эффективности запроса:}
+\begin{tabular}{|r|l|l|l|l|l|l|}
+\hline
+id & select\_type & table & type & possible\_keys & key & key\_len\\
+\hline
+1 & PRIMARY & teacher & ALL & PRIMARY & NULL & NULL\\
+\hline
+1 & PRIMARY & lesson & ref & les\_teach\_id & les\_teach\_id & 2\\
+\hline
+2 & SUBQUERY & teacher & index & PRIMARY & reach\_dep\_id & 1\\
+\hline
+2 & SUBQUERY & lesson & ref & les\_teach\_id & les\_teach\_id & 2\\
+\hline
+\end{tabular}
+\par\medskip
+\begin{tabular}{|m{5cm}|r|l|}
+\hline
+ref & rows & Extra\\
+\hline
+NULL & 100 &  Using temporary; Using filesort\\
+\hline
+timetable.teacher.teach\_id & 235 & Using index; \\
+\hline
+NULL & 100 & Using index; Using temporary; Using filesort\\
+\hline
+timetable.teacher.teach\_id & 235 & Using index; \\
+\hline
+\end{tabular}
+\end{flushleft}
+\par\medskip
+Первый раз обход по всей таблице. От этого не избавиться, потому нужно выполнить команду COUNT. Во вложенном запросе нужно сделать группировку и сортировку.
+\medskip
+\begin{center}
+$\rho_{\underset{\text{\tiny ``Кол-во занятий'' }}{count(les\_id}}=
+(\pi_{count(les\_id)}(\delta_{count(les\_id)\geq(\pi_{count(les\_id))}}(\gamma_{les\_id}(lesson))
+\underset{teach\_id=les\_teach\_id}{\blacktriangleright\!\!\blacktriangleleft}teacher)
+(\gamma_{les\_teach\_id}(lesson))
+\underset{teach\_id=les\_teach\_id}{\blacktriangleright\!\!\blacktriangleleft}
+\rho_{teach\_name=\text{\scriptsize ``Преподаватель''}}(\pi_{teach\_nam}(teacher))$
+\end{center}

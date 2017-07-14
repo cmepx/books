@@ -1,0 +1,110 @@
+Формулировка: найти кафедру, у которой в первом корпусе занятий меньше, чем во втором.
+\par\medskip
+Запрос на SQL:
+\begin{verbatim} 
+SELECT first.dep AS 'каф', first.fac AS 'Фак', first.count, second.count
+FROM (SELECT COUNT(1es_id) AS count, gr_dep_id AS dep, gr_fac_id AS fac,
+les_corps_abbr AS corps 
+      FROM training_groups JOIN lesson ON tg_les_id = les_id 
+      JOIN groups ON tg_gr_nutn = gr_num 
+      WHERE les_corps_abbr = 'оффмл' GROUP BY gr_fac_id, gr_dep_id) 
+      AS first
+JOIN (SELECT COUNT(les_id) AS count, gr_dep_id AS dep, gr_fac_id AS fac,
+les_corps_abbr AS corps 
+      FROM training_groups JOIN lesson ON tg_les_id = les_id
+      JOIN groups ON tg_gr_num = gr_num 
+      WHERE les_corps_abbr = 'ДБОНКУ' GROUP BY gr_fac_id, gr_dep_id) 
+      AS second
+ON first.dep = second.dep AND first.fac = second.fac 
+WHERE first.count < second.count;
+\end{verbatim}
+\par\medskip
+{\bf Результат выполнения запроса:}\\
+\begin{tabular}{|r|r|r|r|}
+\hline
+Каф & Фак & count & count\\
+\hline
+1 & 04 & 15 & 24\\
+\hline
+2 & 06 & 27 & 32\\
+\hline
+3 & 10 & 43 & 46\\
+\hline
+\end{tabular}
+\par\medskip
+{\bf Время выполнения запроса:}\\
+3  rows in set  (0.03 sec)
+\par\medskip
+{\bf Анализ эффективности запроса:}\\
+\begin{flushleft}
+\begin{tabular}{|r|l|m{2.2cm}|l|m{3cm}<{\raggedright}|l|l|}
+\hline
+id & select\_type & table & type & possible\_keys & key & key\_len\\
+\hline
+1 & PRIMARY & <derived2> & ALL & NULL & NULL & NULL\\
+\hline
+1 & PRIMARY & <derived3> & ALL & NULL & NULL & NULL\\
+\hline 
+3 & DERIVED & groups & ALL & PRIMARY & NULL & NULL\\
+\hline 
+3 & DERIVED & training\_ groups & ref & PRIMARY, tg\_gr\_num & tg\_gr\_num & 11\\
+\hline
+3 & DERIVED & lesson & eq\_ref & PRIMARY, les\_corps\_abbr & PRIMARY & 3\\
+\hline 
+2 & DERIVED & groups & ALL  & PRIMARY & NULL & NULL\\
+\hline
+2 & DERIVED & training\_ groups & ref & PRIMARY, tg\_gr\_num & tg\_gr\_num & 11\\
+\hline 
+2 & DERIVED & lesson & eq\_ref & PRIMARY, les\_corps\_abbr & PRIMARY & 3\\
+\hline 
+\end{tabular}
+\par\medskip
+\begin{tabular}{|l|r|l|}
+\hline
+ref & rows & Extra\\
+\hline
+NULL & 24 &\\
+\hline
+NULL & 24 & Using~where; Using~join~buffer\\
+\hline
+NULL & 50 & Using~temporary; Using~filesort\\
+\hline
+timetable.groups.gr\_num & 48 & Using~index\\
+\hline
+timetable.training\_groups.tg\_les\_id & 1 & Using~where\\
+\hline
+NULL & 50 & Using~temporary; Using~filesort\\
+\hline
+timetable.groups.gr\_num & 48 &  Using~index\\
+\hline
+timetable.training\_groups.tg\_les\_id & 1 & Using~where\\
+\hline
+\end{tabular}
+\end{flushleft}
+\par\medskip
+Выполняется З запроса. Первый отложенный из-за вложенных запросов во FROM. 2й и Зй запросы одинаковые, только с разными параметрами при WHERE.
+\par\medskip
+Формула реляционной алгебры:
+\begin{center}
+$
+\rho_{\underset{first.fac=\text{\tiny``Фак''}}{first.dep=\text{\tiny``Rfa''}}}
+\bigl(\pi_{\underset{\underset{first.count}{first.dep}}{first.fac}}
+(\rho_{A=first})\bigl)
+\underset{\underset{first.dep=second.dep}{first.fac=second.fac}}{\blacktriangleright\!\!\blacktriangleleft}
+\pi_{second.count}\bigl(\delta_{first.count<second.count}
+(\rho_{B=second})\bigl)$\\
+\par\medskip
+$
+\text{Где }A=(training_groups)\underset{td\_les\_id=les\_id}{\blacktriangleright\!\!\blacktriangleleft}
+\rho_{\underset{COUNT(les\_id)=count}{les\_corps\_abbr=corps}}
+\Bigl(\pi_{\underset{COUNT(les\_id)}{les\_corps\_abbr}}
+\bigl(\gamma_{les\_corps\_abbr=\text{\scriptsize ``офФМЛ''}}
+(lesson)\bigl)\Bigl)
+\underset{td\_gr\_num=gr\_num}{\blacktriangleright\!\!\blacktriangleleft}
+\rho_{\underset{gr\_dep\_id=dep}{gr\_fac\_id=fac} }
+\Bigl(\pi_{\underset{gr\_dep\_id}{gr\_fac\_id}}
+\bigl(\gamma_{\underset{gr\_dep\_id}{gr\_fac\_id}}
+(droups)\bigl)\Bigl)
+$
+\end{center}
+У В всё то же самое, только название корпуса другое.

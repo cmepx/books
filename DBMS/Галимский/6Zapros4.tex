@@ -1,0 +1,81 @@
+Формулировка: Вывести число преподавателей с одинаковым количеством дисциплин.
+\par\medskip
+Запрос на SQL:
+\begin{verbatim} 
+SELECT COUNT(s.subcount) AS 'Число преподавателей', S.subcount 
+AS 'Кол-во дисциплин' 
+FROM (SELECT couNT(ts_sub_id) AS subcount FROM teacher_subject 
+GROUP BY ts_teach_id) AS s GROUP BY S.subcount;
+\end{verbatim}
+
+\par\medskip
+{\bf Результат выполнения запроса:}\\
+\begin{tabular}{|r|r|}
+\hline 
+Число преподавателей & кол-во дисциплин\\
+\hline
+10 & 10\\
+\hline
+10 & 20\\
+\hline
+10 & 30\\
+\hline
+10 & 40\\
+\hline
+10 & 50\\
+\hline
+10 & 60\\
+\hline
+10 & 70\\
+\hline
+10 & 80\\
+\hline
+10 & 90\\
+\hline
+10 & 100\\
+\hline
+\end{tabular}
+\par\medskip
+{\bf Время выполнения запроса:}\\
+10  rows in set  (0.01 sec)
+\par\medskip
+\begin{flushleft}
+{\bf Анализ эффективности запроса:}
+\begin{tabular}{|r|l|l|l|l|l|l|}
+\hline
+id & select\_type & table & type & possible\_keys & key & key\_len\\
+\hline
+1 & PRIMARY & <derived2> & ALL & NULL & NULL & NULL\\
+\hline
+2 & DERIVED & teacher\_subject & index  & NULL & les\_teach\_id & 2\\
+\hline
+\end{tabular}
+\par\medskip
+\begin{tabular}{|m{5cm}|r|l|}
+\hline
+ref & rows & Extra\\
+\hline
+NULL & 100 &  Using temporary; Using filesort\\
+\hline
+NULL & 5761 & Using index; \\
+\hline
+\end{tabular}
+\end{flushleft}
+\par\medskip
+Выполняется 2 запроса. Первый запрос делает временную таблицу (отложенный). 2й запрос обрабатывает 5761 строк.
+\par\medskip
+\newpage
+Формула реляционной алгебры:
+\begin{center}
+$\rho_{\underset{S.subcount=\text{\tiny ``Кол-во дисциплин''}}{count(S.subcount=\text{\tiny ``Число преподавателей''})}}
+\Bigl(\pi_{\underset{S.subcount}{count(S.subcount)}}\bigl(\gamma_{S.subcount}\{
+$ $\rho_{S=(\rho_{count(ts\_sub\_id)=subcount}(\pi_{count(ts\_sub\_id)}
+(\gamma_{ts\_teach\_id}(teacher\_subject) ) ) )} \}\bigl)\Bigl)$
+\end{center}
+{\bf График:}
+\begin{figure}[ht]
+\centering
+\includegraphics{06.png}
+\hfill
+\end{figure}
+

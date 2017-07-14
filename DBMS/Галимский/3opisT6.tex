@@ -1,0 +1,38 @@
+\begin{table}[h!]
+\rotatebox{90}%
+{ 
+\begin{minipage}{1.3\linewidth}
+\begin{center}
+\caption{<<Корпус>> (corps)}
+\label{tab:8}
+\begin{tabular}{|m{3.5cm}|m{3.1cm}|>{\centering}m{1.4cm}|>{\centering}m{1.2cm}|>{\centering}m{2.9cm}|m{6cm}|}
+\hline
+Имя на русском &	Имя на английском	& PK/FK & NOT NULL & Тип данных	&  Описание	\\
+\hline
+Сокр. Название корпуса & corps\_abbr & PK & $+$ &	VARCHAR (30)	& У некоторых названий корпусов нет сокращения, особенно у коротких названий. Туда записывается то же название, что в атрибуте полного названия.\\
+\hline
+Название корпуса & 	corps\_name	& $-$ & $+$ & VARCHAR (100) & Полное название корпуса.\\
+\hline
+Адрес корпуса & corps\_address & $-$ & $+$ & VARCHAR (100) & Адрес кафедры в виде: индекс, город, улица, дом.\\
+\hline
+\end{tabular}
+\medskip
+\caption{  << Аудитория>>  (audience)}	
+\label{tab:9}		
+\begin{tabular}{|m{3.5cm}|m{3.1cm}|>{\centering}m{1.4cm}|>{\centering}m{1.2cm}|>{\centering}m{2.9cm}|m{6cm}|}
+\hline
+Имя на русском &	Имя на английском	& PK/FK & NOT NULL & Тип данных	&  Описание	\\
+\hline
+№ аудитории  & aud\_id & PK & $+$ & SMALLINT(3) UNSIGNED & Диапазон значений от 1 до 600.\\
+\hline
+Сокр. Название корпуса & aud\_corps\_abbr & PK,FK & $+$ & VARCHAR (30) & Описание смотрите в таблице \ref{tab:8} \\
+\hline
+Вместительность аудитории & aud\_roominess  & $-$	& $+$ & SMALLINT(3)    UNSIGNED & Количество сидячих мест для студентов. Диапазон значений от 1 до 600.\\
+\hline
+Дополнительная информация	 & aud\_info & $-$  & $-$ & VARCHAR (1000) & Дополнительная информация о факультете. Например оснащенность аудитории компьютерами или проектором.\\
+\hline
+\end{tabular}
+\medskip
+\end{center}
+\end{minipage} }
+\end{table}

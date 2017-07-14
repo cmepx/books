@@ -1,0 +1,44 @@
+\begin{longtable}{|m{2.5cm}|m{4cm}<{\raggedright}|m{3cm}|m{4cm}<{\raggedright}|}
+	\caption{Таблицы заполненные вручную. \label{tab:z1}} \\
+	\hline
+	Таблица & Код заполнения & Таблица & Код заполнения \endfirsthead
+	% finished specifying first header
+ 
+	% specifies header for rest of the pages.
+	\caption{Таблицы заполненные вручную.Продолжение} \\
+	\hline
+	Таблица & Код заполнения & Таблица & Код заполнения \endhead
+	% finished specifying subsequent headers
+ 
+	% This is the actual table data.
+	\hline
+	Тип занятия &
+\textsf{INSERT INTO typejesson VALUES
+('лекция'),
+('семинар'),
+('лабораторная работа'),
+('практическая работа'),
+('научно-исследовательская работа'),
+('факультатив');} &
+Время занятия &
+\textsf{INSERT INTO time VALUES
+('09:00--12:00'),
+('10:00--12:00'),
+('12:00--14:00'),
+('14:00--16:00'),
+('14:00--17:00'),
+('16:00--18:00');}
+ \\
+	\hline
+День недели &
+\textsf{INSERT INTO week\_day VALUES
+('пн',~'понедельник'),
+('вт',~'вторник'),
+('cp',~'среда'),
+('чт',~'четверг'),
+('пт',~'пятница'),
+('сб',~'суббота');} &
+Регулярность &
+\textsf{INSERT INTO regularity VALUES (1н',~'нечётная~неделя'), ('2н',~'чётная~неделя'), ('кн',~'каждая~неделя');}\\
+	\hline
+\end{longtable}

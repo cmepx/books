@@ -1,0 +1,89 @@
+\documentclass[12pt, oneside]{article}  
+\usepackage[cp1251]{inputenc}
+\usepackage[russian]{babel}
+\usepackage[T2A]{fontenc}
+\usepackage{pscyr}
+
+\topmargin = -1.5cm
+\headheight = 0.5cm
+\headsep = 0.5cm
+\textheight = 24.0cm
+\footskip = 1.0cm
+%\footheight =1.0cm
+\oddsidemargin = 0.5cm
+\evensidemargin = 0.5cm
+\textwidth  =17.0cm
+
+% графика
+\usepackage[pdftex]{graphicx} 
+% символы математики
+\usepackage{amssymb}
+\usepackage{amsmath}
+%таблицы
+\usepackage{dcolumn}
+\tolerance=2000
+\sloppy
+%\usepackage{ulem}\normalem
+
+\def\baselinestretch{1.4} 
+
+\begin{document}
+\tableofcontents
+\section{Анализ предметной области}
+\input{first.tex}
+\newpage
+\section{Схема иерархий}
+\input{second.tex}
+\newpage
+\section{ER-диаграмма}
+\input{third.tex}
+\newpage
+\section{Схема базы данных}
+\input{fourth.tex}
+\newpage
+\section{Database plan}
+\input{fifth.tex}
+\newpage
+\section{Описание выбора типов атрибутов}
+\input{sixth.tex}
+\clearpage
+\section{Запросы к базе данных}
+\subsection{Вывести всех абонентов, который дважды меняли тарифный план, у которых положительный баланс}
+\input{seventh.1.tex}
+\newpage
+\subsection{Найти клиетов с максимальным/минимальным расходом}
+\input{seventh.2.tex}
+\newpage
+\subsection{Количество абонентов и баланс по каждому тарифному плану}
+\input{seventh.3.tex}
+\newpage
+\subsection{Найти договор, у которого максимальный расход}
+\input{seventh.4.tex}
+\newpage
+\subsection{Посчитать количество пополнений и расходов по каждому тарифному плану}
+\input{seventh.5.tex}
+\newpage
+\subsection{Посчитать количество абонентов в зависимости от тарифного плана и операций}
+\input{seventh.6.tex}
+\clearpage
+\subsection{Посчитать число договоров с одинаковым числом абонентов}
+\input{seventh.7.tex}
+\newpage
+\subsection{Найти фамилию абонента, у котрого больше всех участия в тарифном плане}
+\input{seventh.8.tex}
+\newpage
+\subsection{Найти абонентов, у которых договор по тарифному плану А больше, чем по тарифному плану Б}
+\input{seventh.9.tex}
+\newpage
+\section{Вывод}
+\input{eigths.tex}
+\newpage
+\section{Текст программы генерации случайных тестовых значений для базы данных}
+\input{ninth.tex}
+\newpage
+\section{Создание таблиц базы данных}
+\input{tenth.tex}
+\newpage
+\section{Заполнение словарей базы данных}
+\input{eleventh.tex}
+\end{document}

@@ -1,0 +1,153 @@
+\documentclass[12pt, oneside]{article} % 
+\usepackage[cp1251]{inputenc}
+\usepackage[russian]{babel}
+\usepackage[T2A]{fontenc}
+\textheight = 24.0cm %высота и ширина
+\textwidth  =16.0cm %текста
+%колонтитулы
+\oddsidemargin = 0.5cm %левый колонтитул (+ дюйм)
+\topmargin = -1.5cm %отступ сверху до колонтитула (+ дюйм)
+\headheight = 0.5cm %размер колонтитула
+\headsep = 0.5cm %место между верхним колонтитулом и основным текстом
+\footskip = 1.0cm %нижний отступ
+%интервалы
+\parindent=24pt %абзацный отступ
+\parskip = 0pt %между абзацами
+\renewcommand{\baselinestretch}{1}
+
+% графика
+\usepackage[pdftex]{graphicx} 
+% символы маткматики
+\usepackage{amssymb}
+\usepackage{amsmath}
+%таблицы
+\usepackage{dcolumn}
+\tolerance=2000
+\sloppy
+
+\usepackage{longtable}
+\usepackage{caption} %Для изменения подписей
+\captionsetup[table]{labelformat=simple, labelsep=period, singlelinecheck=off, justification=raggedleft}
+\usepackage{rotating} %Для вращения таблиц
+
+
+\usepackage{textcomp}
+\newcounter{tmp} %создание счетчика
+\setcounter{tmp}{0}
+%Пробное создание окружения для списка 
+\newenvironment{MySpisok1}%
+{\begin{list}{\arabic{tmp})}{\usecounter{tmp}
+\itemindent=5pt
+\topsep=5pt
+\partopsep=1em
+\parsep=0pt
+\itemsep=0pt}}
+{\end{list}}
+
+\newenvironment{MySpisok2}%
+{\begin{list}{\arabic{tmp}.}{\usecounter{tmp}
+\itemindent=5pt
+\topsep=5pt
+\partopsep=1em
+\parsep=0pt
+\itemsep=0pt}}
+{\end{list}}
+
+\begin{document}
+\pagestyle{empty}
+\vspace{50pt}
+\begin{center}
+Министерство образования и нацки Российской Федерации\\[8pt]
+Санкт-Петербургский государственный политехнический университет\\[50pt]
+{\Large{\bf{}Архитектура систем управления реляционными базами данных}}\\[10pt]
+%{\large{}Лабораторная работа №7.}\\[15pt]
+%Расписание занятий студентов университета. Исследование предметной области.
+{\large{}Лабораторная работа №8.}\\[15pt]
+Расписание занятий студентов университета. Разработка схемы базы данных.
+%{\large{}Лабораторная работа №9.}\\[15pt]
+%Расписание занятий студентов университета. Выполнение запросов.
+\end{center}
+\newpage
+\pagestyle{plain}
+\tableofcontents %оглавление
+\newpage
+%{\bf Постановка задачи}: требуется разработать базу данных расписаний занятий студентов университета.
+%\section{Описание предметной области}
+%\input{1opisanie.tex}
+%\newpage
+%\section{Схемы}
+%\subsection{Схема иерархии объектов}
+%\input{2_1shemi.tex}
+%\subsection{ER-диаграмма}
+%\input{2_2shemi.tex}
+%\newpage
+%\subsection{Схема базы данных}
+%\input{2_3shemi.tex}
+%\newpage
+%\subsection{Схема базы данных (English version)}
+%\input{2_4shemi.tex}
+%\newpage
+%\section{Описание атрибутов}
+%\label{sect:3}
+%\input{3opisT1.tex}
+%\newpage
+%\input{3opisT2.tex}
+%\newpage
+%\input{3opisT3.tex}
+%\newpage
+%\input{3opisT4.tex}
+%\newpage
+%\input{3opisT5.tex}
+%\newpage
+%\input{3opisT6.tex}
+%\newpage
+%\input{3opisT7.tex}
+%\newpage
+%\input{3opisT8.tex}
+%\newpage
+\section{Программирование базы данных}
+\input{4Zap.tex}
+\newpage
+\section{Заполнение базы данных}
+\input{5Zap.tex}
+\subsection{Заполнение словарей}
+\input{5Zap1.tex}
+\subsection{Заполнение генератором}
+\input{5Zap2.tex}
+%\newpage
+%\section{Выполнение запросов}
+%\label{sect:6}
+%\subsection{Запрос №1}
+%\input{6Zapros1.tex}
+%\newpage
+%\subsection{Запрос №2} 
+%\input{6Zapros2.tex}
+%\newpage
+%\subsection{Запрос №3} 
+%\input{6Zapros3.tex}
+%\newpage
+%\subsection{Запрос №4}
+%\input{6Zapros4.tex}
+%\newpage
+%\subsection{Запрос №5}
+%\input{6Zapros5.tex}
+%\newpage
+%\subsection{Запрос №6} 
+%\input{6Zapros6.tex}
+%\newpage
+%\subsection{Запрос №7}
+%\input{6Zapros7.tex}
+%\newpage
+%\subsection{Запрос №8} 
+%\input{6Zapros8.tex}
+%\newpage
+%\section{Вывод}
+%\input{7vivod.tex}
+%\newpage
+%\section{Приложения}
+%\subsection{Приложение 1 (код базы данных)}
+%\label{Pril:1}
+%\newpage
+%\subsection{Приложение 2 (код генератора)}
+%\label{Pril:2}
+\end{document}

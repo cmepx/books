@@ -1,0 +1,75 @@
+\begin{verbatim}
+select tariff_plan.id_tariff_plan, operation.id_operation, count(id_Subscriber)
+from operation
+join tariff_plan
+join tariff_plan_under_the_contract on
+tariff_plan.id_tariff_plan=tariff_plan_under_the_contract.id_tariff_plan
+join operation_in_tariff_plan on
+operation.id_operation=operation_in_tariff_plan.id_operation
+join subscriber_under_contract on
+subscriber_under_contract.id_contract=tariff_plan_under_the_contract.id_contract
+where operation_in_tariff_plan.id_tariff_plan=
+tariff_plan_under_the_contract.id_tariff_plan
+group by tariff_plan.id_tariff_plan, operation.id_operation;
+\end{verbatim}
+
+\begin{table}[th]
+\rotatebox{90}
+{
+\centering
+{
+\begin{tabular}{|l|l|l|l|l|l|l|l|l|l|}
+\hline
+id & select\_type & table & type & possible\_keys & key & key\_len & ref & rows & Extra \\
+\hline
+1 & SIMPLE & tariff\_plan & index & PRIMARY & PRIMARY & 4 & NULL & 25 & Using index; Using temporary; Using filesort\\
+1 & SIMPLE & operation\_in\_tariff\_plan & ref & id\_operation,id\_tariff\_plan & id\_tariff\_plan & 4 & biling\_system.tariff\_plan.id\_tariff\_plan & 2 & -\\
+1 & SIMPLE & operation & eq\_ref & PRIMARY & PRIMARY & 4 & biling\_system.operation\_in\_tariff\_plan.id\_operation & 1 & Using index\\
+1 & SIMPLE & tariff\_plan\_under\_the\_contract & ref & id\_contract,id\_tariff\_plan & id\_tariff\_plan & 4 & biling\_system.operation\_in\_tariff\_plan.id\_tariff\_plan & 49 & Using where\\
+1 & SIMPLE & subscriber\_under\_contract & ref & id\_contract & id\_contract & 4 & biling\_system.tariff\_plan\_under\_the\_contract.id\_contract & 3 & -\\
+\hline
+\end{tabular}
+}
+}
+\end{table}
+
+\begin{table}[h!]
+\centering
+{
+\begin{tabular}{|l|l|l|}
+\hline
+id\_tariff\_plan & id\_operation & count(id\_Subscriber)\\
+\hline
+1 & 1 & 851\\
+1 & 2 & 851\\
+1 & 3 & 851\\
+1 & 4 & 851\\
+1 & 5 & 851\\
+2 & 1 & 914\\
+2 & 2 & 914\\
+2 & 3 & 914\\
+2 & 4 & 914\\
+2 & 5 & 914\\
+\hline
+\end{tabular}
+}
+\end{table}
+
+\begin{verbatim}
+125 rows in set(0.37 sec)
+\end{verbatim}
+
+\begin{figure}[h]
+\begin{center}
+\includegraphics[scale=0.7]{IMG6}
+\end{center}
+\caption{Количество абонентов}
+\label{block}
+\end{figure}
+
+Запрос полностью без вложенных запросов, но с группировкой и декартовым произведением, из которого с помощью where мы отбираем ненужные строчки. Использует индекс и временную таблицу.
+
+$\Pi_{id\_tariff\_plan,id\_operation,count(id\_subscriber)}$($\gamma_{id\_tariff\_plan,id\_opereation}$\\
+($\sigma_{operation\_in\_tariff.id\_tariff\_plan=tariff\_plan\_under\_the\_contract.id\_tariff\_plan}$\\
+((($operation_{id\_tariff\_plan \blacktriangleright\!\blacktriangleleft\\
+id\_tariff\_plan}$$tariff\_plan\_under\_the\_contract)_{id\_operation\\ \blacktriangleright\!\blacktriangleleft}$$\\operation\_in\_tariff\_plan)_{id\_contract\\ \blacktriangleright\!\blacktriangleleft id\_contract}$subscriber
