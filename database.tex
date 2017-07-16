@@ -1,0 +1,183 @@
+\documentclass[a5paper,10pt, onecolumn, oneside]{article} %draft
+% кодировка на входе - Windows
+\usepackage[cp1251]{inputenc} 
+%пакет исправляет особенности русской полиграфии
+\usepackage[T2A]{fontenc}
+% пользуемся русскими и английскими переносами 
+\usepackage[english,russian]{babel}
+%аккуратное начертание русского шрифта
+\usepackage{pscyr}
+
+%запрет отступа на первой строке
+\usepackage{indentfirst}
+
+% если захочу включить шрифт меньшего размера
+\usepackage{extsizes}
+%буду переворачивать страницы
+\usepackage{pdflscape}
+% пакет рамок вокруг текстовых областей
+%\usepackage{blindtext, showframe}
+% пока использую внешние массивы текста
+\usepackage{lipsum}
+
+% Формат листа: А5 (148x210 мм). 
+% Поля: левое – 20мм; правое – 15мм; верхнее – 20 мм; нижнее – 20 мм. 
+% Междустрочный интервал – одинарный. Материалы набираются в таком порядке:
+\usepackage[a5paper, top=10mm, bottom=20mm, left=20mm, right=12mm]{geometry}
+
+%равномерные пробелы
+\frenchspacing
+
+%картинки
+%\usepackage{epsfig}
+\usepackage[dvipdfm]{graphicx}
+%\usepackage{epstopdf}
+
+%разрешить перенос двух последних букв
+\righthyphenmin=2
+
+%всего страниц
+\usepackage{lastpage}
+
+%между строчками одиночный интервал
+\def\baselinestretch{1.15} 
+
+%наименования подписей
+\usepackage{caption}
+%заменим двоеточие в подписи к таблице на точку
+\DeclareCaptionLabelSeparator{dot}{. }
+%\captionsetup[table]{justification=centering,labelsep=dot}
+
+%команда переопределения ссылок на объекты
+\usepackage{hyperref}
+
+%заменим на точку подпись к слову Рисунок
+\captionsetup{labelsep=period}
+\captionsetup{labelsep=period,justification=centerlast}
+%\captionsetup{labelsep=period,justification=centerlast,font={small,sf}}
+
+% нумерация
+\usepackage{enumitem}
+% уберём увеличение интервалов при перечислениях
+\setlist{nolistsep}
+
+% заменим символ перечисления по умолчанию
+\def\labelitemi{$-$}
+
+%допустимость "жидких" строк
+\tolerance = 2000
+%безуспешная борьба с блядской строкой
+\clubpenalty=10000
+\widowpenalty=10000
+%\flushbottom
+
+% переопределение команды для компактного написания подписи
+\makeatletter
+\long\def\@makecaption#1#2{%
+%  \vskip\abovecaptionskip
+  \hbox to\textwidth{\hfill\parbox{0.8\textwidth}{
+\begin{center}
+{\small #1. #2}
+\end{center}}\hfill}
+%  \vskip\belowcaptionskip
+}
+\makeatother
+
+\begin{document}
+%новая подпись по русски со ссылко на главу
+\renewcommand{\Nameref}[1]{<<\nameref{#1}>> на странице~\pageref{#1}}
+
+%точка после номера главы
+
+
+\pagestyle{empty}
+\input{title.tex}
+\newpage
+\tableofcontents
+\newpage
+\section{Цель и задачи курсовой работы}
+\input{goal.tex}
+\newpage
+\section{Формы отчётности и технология защиты работы}
+\input{commutation.tex}
+\newpage
+\section{Структура отчёта}
+\label{sec:report_structure}
+\input{report.tex}
+\newpage
+\section{Структура презентации}
+\label{sec:pres_structure}
+\input{presentation.tex}
+\newpage
+\section{Содержание отчёта}
+\label{sec:report_entry}
+\input{task.tex}
+\subsection{Текстовое описание предметной области}
+\input{area.tex}
+\subsection{Определение основных понятий}
+\input{name.tex}
+\subsection{Описание ролей}
+\input{role.tex}
+\subsection{Описание основного автоматизируемого процесса}%Что это
+\input{process.tex}
+\subsection{Иерархия объектов предметной области}
+\input{object.tex}
+\subsection{ER-диаграмма}
+\input{er.tex}
+
+\subsection{Схемы базы данных}
+
+\subsection{Описание распределения данных}
+
+\subsection{Генерация исходных данных}
+
+\subsection{Реализация и описание результатов запросов}
+
+\lipsum[21-22]
+
+\subsubsection{Описание запроса на естественном языке}
+\lipsum[23-24]
+
+\subsubsection{Текст запроса на языке SQL}
+
+\subsubsection{Реляционная формула запроса}
+
+\subsubsection{Результаты выполнения запроса}
+
+\subsubsection{Вычисление характеристик распределения данных}%Что это
+
+\subsubsection{Построение графиков и диаграмм}
+
+\subsection{Выводы}
+\input{conclusion.tex}
+\subsection{Приложения}
+
+\subsubsection{Приложение А. Программа создания схемы базы данных}
+
+\subsubsection{Приложение Б. Программа генерации данных}
+
+\subsubsection{Приложение С. Слайды презентации}
+
+\section{Примерные темы курсовых работ}
+
+\section{Технические средства и технология выполнения курсовой работы} %что это
+
+\subsection{Технология выполнения работы}
+
+\subsubsection{Схема взаимодействия компонент программного обеспечения}
+
+\subsubsection{Программное обеспечение}
+
+%\paragraph{Программное обеспечение Windows}
+
+%\paragraph{Программное обеспечение Linux}
+
+%\subsubsection{Технология выполнения отчётных материалов курсовой работы}
+
+\subsubsection{Презентация}
+
+\subsubsection{Отчёт}
+
+\section{Основные и вспомогательные источники}
+
+\end{document}
