@@ -1,0 +1,49 @@
+{\bf Запрос №1. Предметная область ``Кинодистрибьютор''} Касимов
+
+\begin{verbatim}
+SELECT Cinema.Cinema_name
+  FROM Cinema
+  JOIN Hall ON Hall.Cinema_id = Cinema.Cinema_id
+  JOIN SessionDB ON SessionDB.Hall_id = Hall.Hall_id
+  JOIN FilmTechnology ON 
+       FilmTechnology.FilmTechnology_id = 
+       SessionDB.FilmTechnology_id
+ WHERE (FilmTechnology.Technology_id = 9 AND
+        FilmTechnology.Film_id = 486 AND
+        Hall.Number_Hall = 1);
+\end{verbatim}
+
+{\bf Запрос №2. Предметная область ``Кинодистрибьютор''} Касимов
+\begin{verbatim}
+SELECT Cinema.Cinema_name
+  FROM (
+SELECT Hall.Cinema_id as numberCinema
+  FROM (
+SELECT tableHallAndTicket.numberHall,
+       tableHallAndTicket.numberTickets
+  FROM (
+SELECT checkHallAndSession.numberHall,
+       checkHallAndSession.numberSession,
+ COUNT (Ticket.Ticket_id) as numberTickets
+  FROM (
+SELECT SessionDB.Hall_id as numberHall,
+       SessionDB.Session_id as numberSession
+  FROM (
+SELECT FilmTechnology.FilmTechnology_id as numberFilm
+  FROM FilmTechnology 
+ WHERE (Technology_id = 9 AND Film_id = 486))\
+        as checkFilmTechnology 
+  JOIN SessionDB ON checkFilmTechnology.numberFilm
+        = SessionDB.FilmTechnology_id)
+        as checkHallAndSession
+  JOIN Ticket 	ON Ticket.Session_id =
+       checkHallAndSession.numberSession
+GROUP BY checkHallAndSession.numberSession)
+       as tableHallAndTicket
+ WHERE tableHallAndTicket.numberTickets = 15)
+       as tableForHall
+  JOIN Hall ON tableForHall.numberHall = Hall.Hall_id
+ WHERE Hall.Number_Hall = 4) as checkCinema
+  JOIN Cinema ON checkCinema.numberCinema =
+       Cinema.Cinema_id; 
+\end{verbatim}
