@@ -1,0 +1,421 @@
+
+{\bf Код программы заполнения базы данных. Предметная область ``Расписание экзаменов''} Дементьев
+\begin{verbatim}
+1. #include <QCoreApplication>
+2. #include <stdio.h>
+3. #include <stdlib.h>
+4. #include <string.h>
+5. #include <iostream>
+6. #include <vector>
+7. #include <map>
+8. #include <list>
+9. #include <fstream>
+10. #include <conio.h>
+11. #include <cmath>
+12. #include <ctime>
+13. #include <QString>
+14. #include <QVector>
+15. #include <QFile>
+16. #include <QTextStream>
+17. #include <random>
+18. using namespace std;
+19. int main(int argc, char *argv[])
+20. {
+21.     QCoreApplication a(argc, argv);
+22.     QVector <QString> direktor;
+23.     direktor.push_back("Алмазова");
+24.     direktor.push_back("Ватин");
+25.     direktor.push_back("Макаров");
+26.     direktor.push_back("Сильников");
+27.     direktor.push_back("Колесников");
+28.     direktor.push_back("Заборовский");
+29.     direktor.push_back("Боровков");
+30.     direktor.push_back("Фролов");
+31.     direktor.push_back("Забелин");
+32.     direktor.push_back("Щепинин");
+33.     QVector <QString> student;
+34.     student.push_back("Дементьев");
+35.     student.push_back("Сидоров");
+36.     student.push_back("Востров");
+37.     student.push_back("Кацал");
+38.     student.push_back("Медведев");
+39.     student.push_back("Богославец");
+40.     student.push_back("Кладиков");
+41.     student.push_back("Малышев");
+42.     student.push_back("Микулик");
+43.     student.push_back("Лисенкова");
+44.     QVector<QString> adress;
+45.     adress.push_back("Пушкина 12");
+46.     adress.push_back("Гагарина 21");
+47.     adress.push_back("Сталина 51");
+48.     adress.push_back("Бутлерова 9");
+49.     adress.push_back("Науки 22");
+50.     adress.push_back("Ленина 55");
+51.     adress.push_back("Горького 342");
+52.     adress.push_back("Губкина 22");
+53.     adress.push_back("Муллагалиева 1");
+54.     QVector<QString> instityt;
+55.     instityt.push_back("ИКНТ");
+56.     instityt.push_back("ИПММ");
+57.     instityt.push_back("ИИУС");
+58.     instityt.push_back("ИМОП");
+59.     instityt.push_back("ИСИ");
+60.     instityt.push_back("ИПМЭИТ");
+61.     QVector<QString> kafedra;
+62.     kafedra.push_back("Телематика");
+63.     kafedra.push_back("СЛАУ");
+64.     kafedra.push_back("КИТ");
+65.     kafedra.push_back("Реклама");
+66.     kafedra.push_back("Филология");
+67.     kafedra.push_back("Гидравлика");
+68.     QVector<QString> typeaud;
+69.     typeaud.push_back("Компьютерная");
+70.     typeaud.push_back("Лекционная");
+71.     typeaud.push_back("Для Лаб");
+72.     typeaud.push_back("Лолкек");
+73.     QVector<QString> housing;
+74.     housing.push_back("Главное здание");
+75.     housing.push_back("1 корпус");
+76.     housing.push_back("2 корпус");
+77.     housing.push_back("11 корпус");
+78.     housing.push_back("9 корпус");
+79.     housing.push_back("Хим корпус");
+80.     housing.push_back("3 корпус");
+81.     housing.push_back("4 корпус");
+82.     housing.push_back("5 корпус");
+83.     housing.push_back("Гидрокорпус");
+84.     housing.push_back("6 корпус");
+85.     housing.push_back("7 корпус");
+86.     QVector<QString> stepen;
+87.     stepen.push_back("Доцент");
+88.     stepen.push_back("Профессор");
+89.     stepen.push_back("Кандидат наук");
+90.     stepen.push_back("Доктор");
+91.     QVector<QString> doljnost;
+92.     doljnost.push_back("Зам кафедры");
+93.     doljnost.push_back("Никто");
+94.     doljnost.push_back("Зам зав кафедры");
+95.     doljnost.push_back("Некто");
+96.     QVector<QString> zvanie;
+97.     zvanie.push_back("Не понял");
+98.     zvanie.push_back("Лаборант");
+99.     zvanie.push_back("Как так");
+100.     zvanie.push_back("Логика");
+101.     QVector<QString> PrepFam;
+102.     PrepFam.push_back("Курочкин");
+103.     PrepFam.push_back("Новицкий");
+104.     PrepFam.push_back("Кекович");
+105.     PrepFam.push_back("Иванов");
+106.     PrepFam.push_back("Петров");
+107.     PrepFam.push_back("Сидоров");
+108.     PrepFam.push_back("Касимов");
+109.     QVector<QString> Name;
+110.     Name.push_back("Василий");
+111.     Name.push_back("Миша");
+112.     Name.push_back("Денис");
+113.     Name.push_back("Сергей");
+114.     Name.push_back("Семен");
+115.     Name.push_back("Максим");
+116.     Name.push_back("Герман");
+117.     Name.push_back("Степан");
+118.     Name.push_back("Илья");
+119.     Name.push_back("Александр");
+120.     QVector<QString> Otchestvo;
+121.     Otchestvo.push_back("Михайлович");
+122.     Otchestvo.push_back("Семеныч");
+123.     Otchestvo.push_back("Валерьевич");
+124.     Otchestvo.push_back("Иванович");
+125.     Otchestvo.push_back("Петрович");
+126.     Otchestvo.push_back("Александрович");
+127.     Otchestvo.push_back("Сергеевич");
+128.     QVector<QString> predmet;
+129.     predmet.push_back("Матан");
+130.     predmet.push_back("Физика");
+131.     predmet.push_back("История");
+132.     predmet.push_back("Базы данных");
+133.     predmet.push_back("Логика");
+134.     predmet.push_back("Физкультура");
+135.     predmet.push_back("Геометрия");
+136.     predmet.push_back("Микроконтроллеры");
+137.     predmet.push_back("Графика");
+138.     predmet.push_back("Химия");
+139.     predmet.push_back("Статистика");
+140.     QVector<QString> typedisc;
+141.     typedisc.push_back("Общая");
+142.     typedisc.push_back("Специализированная");
+143.     QVector<QString> special;
+144.     special.push_back("Математика и комп науки");
+145.     special.push_back("Мат обеспечение");
+146.     special.push_back("Реклама и тд");
+147.     special.push_back("Мехатроника");
+148.     special.push_back("Роботехника");
+149.     QVector<QString> vremya;
+150.     vremya.push_back("10:00','12:00");
+151.     vremya.push_back("11:00','13:00");
+152.     vremya.push_back("12:00','15:00");
+153.     vremya.push_back("13:00','15:00");
+154.     vremya.push_back("14:00','16:00");
+155.     vremya.push_back("10:30','12:00");
+156.     vremya.push_back("11:30','13:30");
+157.     vremya.push_back("12:30','14:30");
+158.     vremya.push_back("14:30','16:00");
+159.     QVector<QString> formaOby;
+160.     formaOby.push_back("Очная");
+161.     formaOby.push_back("Заочная");
+162.     formaOby.push_back("Очная вечерняя");
+163.     QVector<QString> status;
+164.     status.push_back("Лаборант");
+165.     status.push_back("Лектор");
+166.           QFile file("CREATE_AND_INSERT.txt");
+167.     if (!file.open(QIODevice::WriteOnly
+ | QIODevice::Text))
+168.         return 0;
+169.     QTextStream out(&file);
+170.     out.setCodec("UTF-8");
+171.     int fakyltet=59;
+172.     out<<"INSERT INTO chair 
+(id_chair,name_chair  ,director , deans_office,
+ contact_number ) VALUES";
+173.   
+174.     //Факультет
+175.        for(int i=0;i<fakyltet;i++){
+176.     out <<"('"<<i<<"','"<<instityt[qrand()%
+instityt.size()]<<"','"<<direktor[qrand()%direktor.size()]
+<<"','"<<qrand()%400+100<<"k"<<"','"
+<<(qrand()%1000000+2000000)<<"')";
+177.     if (i<fakyltet-1)
+178.     out<<",";
+179.     }
+180.     out<<";\n";
+181. 
+182.      //Кафедра
+183.      int kaf=59;
+184.     out<<"INSERT INTO department 
+(id_department,name_department,
+ contact_number,location, head_of_department) VALUES";
+185.     for(int i=0;i<kaf;i++){
+186. 
+187.         out <<"('"<<i<<"','"
+<<kafedra[qrand()%kafedra.size()] 
+<<"','"<<qrand()%1000000+3000000<<"','"<<adress[qrand()
+%adress.size()]<<"','"
+<<direktor[qrand()%direktor.size()]<<"')";
+188.         if (i<kaf-1)
+189.             out<<",";
+190.     }
+191.     out<<";\n";
+192. 
+193.     //Аудитория
+194.   int audit=59;
+195. 
+196.   out<<"INSERT INTO auditorium 
+(id_auditorium , type_auditorium ,housing,
+ floor, auditorium , number_of_seats) VALUES ";
+197.     for(int i=0;i<audit;i++){
+198.         out <<"('"<<i<<"','"
+<<typeaud[(qrand()%typeaud.size())] 
+<<"','"<<housing[(qrand()%housing.size())]
+<<"','"<<qrand()%4+1<<"','"<<qrand()%500+100
+<<"','"<<qrand()%100+1<<"')";
+199.         if (i<audit-1)
+200.             out<<",";
+201.     }
+202.     out<<";\n";
+203.     //Преподаватель
+204.     out<<"INSERT INTO educator
+ ( id_educator , surname , name,
+ patronymic , faculty , science_degree , position,
+ appointment) VALUES";
+205.     int prepod=59;
+206.     for(int i=0;i<prepod;i++){
+207.         out<<"('"<<i<<"','"<<PrepFam[(qrand()
+%PrepFam.size())] <<"','"<<Name[qrand()%Name.size()]
+<<"','"<<Otchestvo[qrand()%Otchestvo.size()]<<"','"
+<<kafedra[qrand()%kafedra.size()]
+<<"','"<<stepen[qrand()%stepen.size()]<<"','"
+<<zvanie[qrand()%zvanie.size()]<<"','"
+<<doljnost[qrand()%doljnost.size()]<<"')";
+208.         if (i<prepod-1)
+209.             out<<",";
+210.     }
+211.     out<<";\n";
+212. 
+213.     //Дисциплина
+214.     out<<"INSERT INTO discipline 
+(id_discipline , name_discipline , code_discipline ,
+ type_disciplin) VALUES ";
+215.     int disc=59;
+216.     for(int i=0;i<disc;i++){
+217. 
+218. 
+219.         out <<"('"<<i<<"','"
+<<predmet[(qrand()%predmet.size())] 
+<<"','"<<(qrand()%9000+10000)<<"','"
+<<typedisc[qrand()%typedisc.size()]<<"')";
+220.         if (i<disc-1)
+221.             out<<",";
+222.     }
+223.     out<<";\n";
+224. 
+225.     //Специальность
+226.     int spec=59;
+227.     out<<"INSERT INTO specialty (id_specialty ,
+  name_specialty) VALUES ";
+228.     for(int i=0;i<spec;i++){
+229. 
+230. 
+231. 
+232.         out<<"('" <<i<<"','"<<special[(qrand()
+%special.size())]<<"')";
+233.         if (i<spec-1)
+234.             out<<",";
+235.     }
+236.     out<<";\n";
+237. 
+238.     //Время экз
+239.     out<<"INSERT INTO exam_time 
+( id_period , exam_start , exam_end) VALUES ";
+240.     for(int i=0;i<vremya.size();i++){
+241. 
+242.     
+243.         out<<"('" <<i<<"','"<<vremya[i]<<"')";
+244.         if (i<vremya.size()-1)
+245.             out<<",";
+246. }
+247.     out<<";\n";
+248. 
+249.     //Комиссия
+250.     out<<"INSERT INTO  commission 
+(id_commission) VALUES";
+251.     int kommis=59;
+252.     for(int i=0;i<kommis;i++){
+253.         out<<"('" <<i<<"')";
+254.         if (i<kommis-1)
+255.             out<<",";
+256.     }
+257.     out<<";\n";
+258.     
+259.     //Группа
+260.     
+261.     int grypa=100000;
+262.     out<<"INSERT INTO `group`  
+(id_group ,amount_people ,
+ year_set , form_of_education ,
+ contact_person , year_of_issue ,id_specialty ,
+ id_chair , id_department) VALUES ";
+263.     for(int i=0;i<grypa;i++){
+264.         out<<"('" 
+<<i<<"','"<<(qrand()%20+10)<<"','"<<qrand()%4+2012<<"','"
+<<formaOby[qrand()%formaOby.size()]<<"','"<<student[qrand()
+%student.size()]<<"','"<<qrand()%8+2016<<"','"<<qrand()
+%spec<<"','"<<qrand()%fakyltet<<"','"<<qrand()%kaf<<"')";
+265.         if (i<grypa-1)
+266.             out<<",";
+267.     }
+268.     out<<";\n";
+269. 
+270.        //Специализация
+271.    
+272.     out<<"INSERT INTO specialization 
+(id_discipline , id_educator) VALUES ";
+273.     for(int i=0;i<59;i++){
+274. 
+275.     int max1=qrand()%3+3;
+276.     int ed[max1];
+277.     for(int j=0;j<max1;j++){
+278. 
+279.         ed[j]=qrand()%59;
+280.         for(int k=0;k<max1;k++){
+281.             if (j!=k){
+282.                 if (ed[j] == ed[k])
+283.                     ed[j] = qrand()%59, k = 0;
+284.             }
+285.         }
+286.         out<<"('" <<i<<"','"<<ed[j]<<"')";
+287.         if (j<max1-1 | i<59-1)
+288.             out<<",";
+289.     }
+290. }
+291. //
+292. out<<";\n";
+293.    
+294.     //Состав комиссии
+295.     out<<"INSERT INTO  commission_structure
+ ( id_commission , id_educator , status) VALUES ";
+296.     for(int i=0;i<59;i++){
+297. 
+298.     int max2=qrand()%3+1;
+299.     int prep[max2];
+300.     for(int j=0;j<max2;j++){
+301. 
+302.         prep[j]=qrand()%59;
+303.         for(int k=0;k<max2;k++){
+304.             if (j!=k){
+305.                 if (prep[j] == prep[k])
+306. 
+307.                     prep[j] = qrand()%59, k = 0;
+308.             }
+309.         }
+310.         out <<"('"<<i<<"','"<<prep[j]<<"','"
+<<status[qrand()%status.size()]<<"')";
+311.         if (i<59-1 | j<max2-1)
+312.             out<<",";
+313.     }
+314. }
+315.      out<<";\n";
+316.    
+317.     //Состав дисциплин комиссии
+318.      out<<"INSERT INTO commission_disciplines
+ ( id_discipline ,id_commission) VALUES ";
+319.     for(int i=0;i<59;i++){
+320.         for(int j=0;j<59;j++){
+321.             out<<"('" <<i<<"','"<<j<<"')";
+322.             if (j<59-1 | i<59-1)
+323.                 out<<",";
+324.         }}
+325.      out<<";\n";
+326.   
+327.     //Расписание сессии
+328.       int exam=100000;
+329.     out<<"INSERT INTO schedule_session
+ (id_exam , id_commission , id_auditorium ,
+ id_period , date_exam) VALUES ";
+330.     for(int i=0;i<exam;i++){
+331. 
+332.         //int dekanat=qrand()%300+100;
+333.         out<<"('" <<i<<"','"<<(qrand()%kommis)
+<<"','"<<qrand()%audit<<"','"<<qrand()%vremya.size()
+<<"','"<<"2016-"<<qrand()
+%12+1<<"-"<<qrand()%29+1<<"')";
+334.         if (i<exam-1)
+335.             out<<",";
+336.     }
+337.     out<<";\n";
+338.       //Поток
+339.     out<<"INSERT INTO flow 
+(id_group , id_exam , number_of_groups) VALUES ";
+340.     for(int i=0;i<100000;i++){
+341. 
+342.         int max=qrand()%3+3;
+343.          int ekzam[max];
+344.         for(int j=0;j<max;j++){
+345. 
+346.             ekzam[j]=qrand()%100000;
+347.             for(int k=0;k<max;k++){
+348.                 if (j!=k){
+349.                     if (ekzam[j] == ekzam[k])
+350. 
+351.                         ekzam[j] = qrand()%100000
+352.                 }
+353.             }
+354.             out<<"('" <<i<<"','"<<ekzam[j]
+<<"','"<<max<<"')";
+355.             if (j<max-1 | i<100000-1)
+356.                 out<<",";
+357.         }
+358.     }
+359.     out<<";";
+360.     file.close();
+361.     return a.exec();
+}
+\end{verbatim}
