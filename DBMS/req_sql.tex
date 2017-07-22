@@ -47,3 +47,46 @@ GROUP BY checkHallAndSession.numberSession)
   JOIN Cinema ON checkCinema.numberCinema =
        Cinema.Cinema_id; 
 \end{verbatim}
+
+{\bf Запрос №3. Предметная область ``Выставка собак''} Лисенкова
+
+\begin{verbatim}
+SELECT Info.country,Info.breed,COUNT(Info.breed)
+  FROM (
+		SELECT Country.Country_id as country, 
+			  Breed.Breed_id as breed
+    		  FROM Exposition 
+		  JOIN City      
+		    ON Exposition.City_id = City.City_id
+    		  JOIN Country   
+		    ON City.Country_id = Country.Country_id
+    		  JOIN DogOnShow 
+		    ON Exposition.Exposition_id = 
+				 DogOnShow.Exposition_id
+    		  JOIN Dog       
+		    ON DogOnShow.Dog_id = Dog.Dog_id
+    		  JOIN Breed    
+		    ON Dog.Breed_id = Breed.Breed_id
+	  ) as Info
+GROUP BY  Info.country,Info.breed;
+\end{verbatim}
+
+{\bf Запрос №4. Предметная область ``Выставка собак''} Лисенкова
+
+\begin{verbatim}
+
+SELECT COUNT(*) as ShowQuantity, New.DogCount as DogQuantit 
+     FROM (
+            SELECT COUNT(*) as ExpoCount, 
+                   DogShow.counter as DogCount 
+              FROM (
+                     SELECT Exposition_id as Expo, 
+                            COUNT(*) as counter
+                       FROM DogOnShow
+                   GROUP BY Exposition_id
+                   ) as DogShow
+          GROUP BY DogShow.Expo
+          ) as New
+GROUP BY New.DogCount;
+
+\end{verbatim}
