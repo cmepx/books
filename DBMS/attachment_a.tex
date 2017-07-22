@@ -1,0 +1,326 @@
+{\bf Код создания базы данных. Предметная область ``Расписание экзаменов''} Дементьев
+\begin{verbatim}
+drop database Schedule;create database Schedule;
+use Schedule;
+
+CREATE TABLE discipline (
+`id_discipline` INT(3),
+`name_discipline` VARCHAR(25) NOT null,
+`code_discipline` INT(3) NOT null,
+`type_disciplin` VARCHAR(25) NOT null,
+PRIMARY KEY(id_discipline));
+
+CREATE TABLE educator
+(`id_educator` INT(3),
+`surname` VARCHAR(25) NOT NULL,
+`name` VARCHAR(25) NOT NULL,
+`patronymic` VARCHAR(25) NOT NULL,
+`faculty` VARCHAR(25),
+`science_degree` VARCHAR(25),
+`position` VARCHAR(25),
+`appointment` VARCHAR(25),
+PRIMARY KEY(id_educator));
+
+CREATE TABLE specialization 
+(`id_discipline` INT(3),
+`id_educator` INT(3),
+PRIMARY KEY(id_discipline,id_educator))
+CREATE TABLE commission_structure 
+(`id_commission` INT(6),
+`id_educator` INT(3) ,
+`status` VARCHAR(25) NOT NULL,
+PRIMARY KEY(id_commission,id_educator)); 
+
+CREATE TABLE commission 
+(`id_commission` INT(6),
+PRIMARY KEY(id_commission));
+
+CREATE TABLE `group` 
+(`id_group` INT(6),
+`amount_people` INT(3) NOT NULL,
+`year_set` INT(4) NOT NULL,
+`form_of_education` VARCHAR(25) NOT NULL,
+`contact_person` VARCHAR(25) NOT NULL,
+`year_of_issue` INT(4),
+`id_specialty` INT(3) NOT NULL,
+`id_chair` INT(3) NOT NULL,
+`id_department` INT(3) NOT NULL, 
+PRIMARY KEY (id_group));
+
+CREATE TABLE flow 
+(`id_group` INT(6),
+`id_exam` INT(6),
+`number_of_groups` INT(3),
+ PRIMARY KEY(id_group,id_exam));
+
+CREATE TABLE exam_time 
+(`id_period` INT(3),
+`exam_start` VARCHAR(25) NOT NULL,
+`exam_end` VARCHAR(25),
+ PRIMARY KEY(id_period));
+
+CREATE TABLE schedule_session 
+(`id_exam` INT(6),
+`id_commission` INT(6) NOT NULL,
+`id_auditorium` INT(3),
+`id_period` INT(3) NOT NULL,
+`date_exam` DATE,
+ PRIMARY KEY(id_exam));
+
+CREATE TABLE auditorium 
+(`id_auditorium` INT(3),
+`type_auditorium` VARCHAR(25) NOT NULL,
+`housing` VARCHAR(25) NOT NULL,
+`floor` INT(3) NOT NULL,
+`auditorium` INT(3) NOT NULL,
+`number_of_seats` INT(3),
+ PRIMARY KEY(id_auditorium));
+
+CREATE TABLE specialty 
+(`id_specialty` INT(3),
+ `name_specialty` VARCHAR(25) NOT NULL,
+PRIMARY KEY(id_specialty));
+
+CREATE TABLE chair 
+(`id_chair` INT(3),
+`name_chair` VARCHAR(25) NOT NULL,
+`director` VARCHAR(25) NOT NULL,
+ `deans_office` VARCHAR(25),
+ `contact_number` INT(15),
+ PRIMARY KEY(id_chair));
+
+CREATE TABLE department 
+(`id_department` INT(3),
+ `name_department` VARCHAR(25) NOT NULL,
+`contact_number` INT(15),
+`location` VARCHAR(25), 
+`head_of_department` VARCHAR(25), 
+PRIMARY KEY(id_department));  
+
+CREATE TABLE commission_disciplines
+ (`id_discipline` INT(3),
+`id_commission` INT(6),
+ PRIMARY KEY(id_discipline,id_commission));
+
+
+ALTER TABLE `group` ADD FOREIGN KEY(id_specialty)
+ REFERENCES specialty (id_specialty);
+ALTER TABLE `group` ADD FOREIGN KEY(id_chair)
+ REFERENCES chair (id_chair);
+ALTER TABLE `group` ADD FOREIGN KEY (id_department)
+ REFERENCES department (id_department);
+ALTER TABLE flow ADD FOREIGN KEY(id_group)
+ REFERENCES `group` (id_group);
+ALTER TABLE flow ADD FOREIGN KEY(id_exam)
+ REFERENCES schedule_session (id_exam);
+ALTER TABLE commission_structure ADD FOREIGN KEY
+(id_educator)
+ REFERENCES educator (id_educator);
+ALTER TABLE commission_structure ADD FOREIGN KEY
+(id_commission)
+ REFERENCES commission (id_commission);
+ALTER TABLE commission_disciplines ADD FOREIGN KEY
+(id_commission)
+ REFERENCES commission (id_commission); 
+ALTER TABLE commission_disciplines ADD FOREIGN KEY
+(id_discipline)
+ REFERENCES discipline (id_discipline);
+ALTER TABLE schedule_session ADD FOREIGN KEY
+(id_commission)
+ REFERENCES commission (id_commission);
+ALTER TABLE schedule_session ADD FOREIGN KEY
+(id_period)
+ REFERENCES exam_time (id_period);
+ALTER TABLE schedule_session ADD FOREIGN KEY
+(id_auditorium)
+ REFERENCES auditorium (id_auditorium);
+ALTER TABLE specialization ADD FOREIGN KEY 
+(id_educator)
+ REFERENCES educator (id_educator);
+ALTER TABLE specialization ADD FOREIGN KEY 
+(id_discipline)
+ REFERENCES discipline (id_discipline);
+\end{verbatim}
+{\bf Код создания базы данных. Предметная область ``Администрирование зоопарками''} Микулик
+
+\begin{verbatim}
+DROP DATABASE IF EXISTS Zoo;
+CREATE DATABASE Zoo DEFAULT CHARSET='cp1251';
+USE Zoo;
+
+CREATE TABLE Country(
+country_id int PRIMARY KEY AUTO_INCREMENT NOT NULL,
+name char(50) NOT NULL,
+capital char(50) NOT NULL,
+population int NOT NULL,
+official_language char (50) NOT NULL,
+currency char(50) NOT NULL
+)
+ENGINE=InnoDB DEFAULT CHARSET='cp1251';
+
+CREATE TABLE City(
+city_id int PRIMARY KEY AUTO_INCREMENT NOT NULL,
+name char(50) NOT NULL,
+time_zone char(10) NOT NULL,
+mayor char (100) NOT NULL,
+country_id int NOT NULL
+)
+ENGINE=InnoDB DEFAULT CHARSET='cp1251';
+
+CREATE TABLE Zoo(
+zoo_id int PRIMARY KEY AUTO_INCREMENT NOT NULL,
+name char(50) NOT NULL,
+location char(100) NOT NULL,
+hours char(100) NOT NULL,
+website char(100) NOT NULL,
+phone char(20) NOT NULL,
+city_id int NOT NULL
+)
+ENGINE=InnoDB DEFAULT CHARSET='cp1251';
+
+CREATE TABLE Place_of_detention(
+pd_id int PRIMARY KEY AUTO_INCREMENT NOT NULL,
+number int NOT NULL,
+name char(60) NOT NULL,
+area int NOt NULL,
+department_id int NOT NULL
+)
+ENGINE=InnoDB DEFAULT CHARSET='cp1251';
+
+CREATE TABLE Department(
+department_id int PRIMARY KEY AUTO_INCREMENT NOT NULL,
+name char(50) NOT NULL,
+zoo_id int NOT NULL
+)
+ENGINE=InnoDB DEFAULT CHARSET='cp1251';
+
+CREATE TABLE Species(
+species_id int PRIMARY KEY AUTO_INCREMENT NOT NULL,
+name char (50) NOT NULL,
+scientific_name char (50) NOT NULL,
+way_of_eating_id int NOT NULL,
+conservation_status_id int NOT NULL,
+activity_time char (20) NOT NULL,
+habitat char (100) NOT NULL,
+temperature_min int NOT NULL,
+temperature_max int NOT NULL,
+class_id int NOT NULL
+)
+ENGINE=InnoDB DEFAULT CHARSET='cp1251';
+
+CREATE TABLE Class(
+class_id int PRIMARY KEY AUTO_INCREMENT NOT NULL,
+name char (20) NOT NULL
+)
+ENGINE=InnoDB DEFAULT CHARSET='cp1251';
+
+CREATE TABLE Animal(
+animal_id int PRIMARY KEY AUTO_INCREMENT NOT NULL,
+name char (30) NOT NULL,
+weight int NOT NULL,
+growth int NOT NULL,
+date_of_birth date NOT NULL,
+sex char (10) NOT NULL,
+feeding_time char (40) NOT NULL,
+exposition boolean NOT NULL,
+temporary boolean NOT NULL,
+species_id int NOT NULL,
+PD_id int NOT NULL
+)
+ENGINE=InnoDB DEFAULT CHARSET='cp1251';
+
+CREATE TABLE Custodian(
+custodian_id int PRIMARY KEY AUTO_INCREMENT NOT NULL,
+name char (50) NOT NULL,
+surname char (50) NOT NULL,
+education_id int NOT NULL,
+specialty_id int NOT NULL,
+date_of_birth date NOT NULL,
+sex char(10) NOT NULL,
+passport_id int NOT NULL,
+phone int NOT NULL
+)
+ENGINE=InnoDB DEFAULT CHARSET='cp1251';
+
+CREATE TABLE Availability(
+availability_id int PRIMARY KEY AUTO_INCREMENT NOT NULL,
+department_id int NOT NULL,
+species_id int NOT NULL
+)
+ENGINE=InnoDB DEFAULT CHARSET='cp1251';
+
+CREATE TABLE Welfare(
+welfare_id int PRIMARY KEY AUTO_INCREMENT NOT NULL,
+species_id int NOT NULL,
+custodian_id int NOT NULL
+)
+ENGINE=InnoDB DEFAULT CHARSET='cp1251';
+
+CREATE TABLE Care(
+care_id int PRIMARY KEY AUTO_INCREMENT NOT NULL,
+animal_id int NOT NULL,
+custodian_id int NOT NULL
+)
+ENGINE=InnoDB DEFAULT CHARSET='cp1251';
+
+CREATE TABLE Education(
+education_id int PRIMARY KEY AUTO_INCREMENT NOT NULL,
+name char (40) NOT NULL
+)
+ENGINE=InnoDB DEFAULT CHARSET='cp1251';
+
+CREATE TABLE Specialty(
+specialty_id int PRIMARY KEY AUTO_INCREMENT NOT NULL,
+name char (50) NOT NULL
+)
+ENGINE=InnoDB DEFAULT CHARSET='cp1251';
+
+CREATE TABLE Way_of_eating(
+way_of_eating_id int PRIMARY KEY AUTO_INCREMENT NOT NULL,
+name char (50) NOT NULL
+)
+ENGINE=InnoDB DEFAULT CHARSET='cp1251';
+
+CREATE TABLE Conservation_status(
+conservation_status_id int PRIMARY KEY AUTO_INCREMENT 
+NOT NULL,
+name char (4) NOT NULL
+)
+ENGINE=InnoDB DEFAULT CHARSET='cp1251';
+
+ALTER TABLE City ADD FOREIGN KEY (country_id) REFERENCES
+ Country (country_id);
+ALTER TABLE Zoo ADD FOREIGN KEY (city_id) REFERENCES
+ City (city_id);
+ALTER TABLE Place_of_detention ADD FOREIGN KEY
+ (department_id) REFERENCES Department (department_id);
+ALTER TABLE Department ADD FOREIGN KEY (zoo_id)
+ REFERENCES Zoo(zoo_id);
+ALTER TABLE Availability ADD FOREIGN KEY (department_id)
+ REFERENCES Department(department_id);
+ALTER TABLE Availability ADD FOREIGN KEY (species_id)
+ REFERENCES Species(species_id);
+ALTER TABLE Species ADD FOREIGN KEY (class_id)
+ REFERENCES Class(class_id);
+ALTER TABLE Species ADD FOREIGN KEY (way_of_eating_id)
+ REFERENCES Way_of_eating (way_of_eating_id);
+ALTER TABLE Species ADD FOREIGN KEY
+ (conservation_status_id) REFERENCES 
+ Conservation_status (conservation_status_id);
+ALTER TABLE Animal ADD FOREIGN KEY (species_id)
+ REFERENCES Species (species_id);
+ALTER TABLE Animal ADD FOREIGN KEY (pd_id)
+ REFERENCES Place_of_detention (pd_id);
+ALTER TABLE Welfare ADD FOREIGN KEY (species_id)
+ REFERENCES Species (species_id);
+ALTER TABLE Welfare ADD FOREIGN KEY (custodian_id)
+ REFERENCES Custodian (custodian_id);
+ALTER TABLE Care ADD FOREIGN KEY (custodian_id)
+ REFERENCES Custodian (custodian_id);
+ALTER TABLE Care ADD FOREIGN KEY (animal_id)
+ REFERENCES Animal (animal_id);
+ALTER TABLE Custodian ADD FOREIGN KEY (education_id)
+ REFERENCES Education(education_id);
+ALTER TABLE Custodian ADD FOREIGN KEY (specialty_id)
+ REFERENCES Specialty(specialty_id);
+\end{verbatim}
